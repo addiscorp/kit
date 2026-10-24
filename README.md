@@ -1,7 +1,11 @@
 # @addiscorp/kit
 
-The header, footer and theme every Addis site shares. The kit owns their
-structure and behaviour; each app owns what's in them and its brand colours.
+The header, footer and theme every Addis site shares.
+
+**Menu structure = kit. Menu content = per app.** The kit owns how the
+header, menu, footer and theme are built and how they behave; each app only
+says what's in them (its groups, items, buttons) and sets its brand colours.
+Nothing about one app's menu belongs in the kit.
 
 ## Use it
 
