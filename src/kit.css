@@ -42,6 +42,9 @@
 
 .ak-soft { color: var(--ak-soft); }
 
+/* The kit's sizes count padding and borders in, whatever the site sets. */
+.ak-topbar, .ak-topbar *, .ak-help-layer, .ak-help-layer *, .ak-foot, .ak-foot * { box-sizing: border-box; }
+
 /* Header */
 .ak-topbar { position: sticky; top: 0; z-index: 30; width: 100%; margin-top: 20px; border-bottom: 1px solid transparent; background: transparent; font-family: var(--ak-font); color: var(--ak-ink); }
 .ak-topbar.is-scrolled { background: var(--ak-header-bg); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom-color: var(--ak-edge); }
@@ -51,6 +54,8 @@
 .ak-top-center { position: relative; }
 .ak-anchor { position: relative; }
 .ak-topbar :focus-visible, .ak-help :focus-visible { outline: 2px solid var(--ak-accent); outline-offset: 3px; }
+/* The menu marks where you are with its own highlight (the search box's border, the active tile); no outline on top. */
+.ak-menu :focus-visible, .ak-menu:focus-visible { outline: none; }
 
 .ak-profile-btn, .ak-icon-btn, .ak-launcher { border: 0; color: var(--ak-ink); cursor: pointer; background: transparent; font: inherit; }
 .ak-profile-btn, .ak-icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; padding: 0; }
