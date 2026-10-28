@@ -124,14 +124,13 @@
 .akt-prose table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; margin: 18px 0; }
 .akt-prose th, .akt-prose td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--akt-faint); }
 .akt-prose th { color: var(--akt-soft); font-size: 13px; }
-.akt-formula, .akt-callout, .akt-step { background: var(--akt-card); border: 1px solid var(--akt-faint); border-radius: 12px; padding: 18px 20px; margin: 20px 0; }
-.akt-formula { font: clamp(15px, 3vw, 22px) var(--akt-mono); overflow-wrap: anywhere; }
-.akt-formula em { font-style: normal; color: var(--akt-accent); }
+.akt-callout, .akt-step { background: var(--akt-card); border: 1px solid var(--akt-faint); border-radius: 12px; padding: 18px 20px; margin: 20px 0; }
 .akt-step { margin: 12px 0; }
 .akt-step-label { font: 600 12px var(--akt-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--akt-accent); margin-bottom: 8px; }
 .akt-step > :last-child { margin-bottom: 0; }
 .akt-code { position: relative; margin: 16px 0; }
 .akt-code pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--akt-card); border: 1px solid var(--akt-faint); border-radius: 10px; padding: 16px 64px 16px 16px; font: 13px/1.55 var(--akt-mono); }
+.akt-step .akt-code pre { background: var(--akt-ground); }
 .akt-code .akt-copy { position: absolute; top: 12px; right: 12px; }
 
 @media (max-width: 860px) {

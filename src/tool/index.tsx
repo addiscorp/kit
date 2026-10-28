@@ -206,11 +206,6 @@ export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', t
   );
 }
 
-/** A one-line idea in large type, with one part in the brand colour: `<Formula>key = <em>vault</em>(name)</Formula>`. */
-export function Formula({ children }: { children: ReactNode }) {
-  return <div className="akt-formula">{children}</div>;
-}
-
 /** A boxed aside. */
 export function Callout({ children }: { children: ReactNode }) {
   return <div className="akt-callout">{children}</div>;

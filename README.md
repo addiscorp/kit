@@ -68,7 +68,7 @@ colours live here too, so every site and the family list agree.
 ```tsx
 import '@addiscorp/kit/kit.css';
 import '@addiscorp/kit/tool.css';
-import { ToolSite, Hero, Why, DocsLayout, Code, Step, Callout, Formula } from '@addiscorp/kit';
+import { ToolSite, Hero, Why, DocsLayout, Code, Step, Callout } from '@addiscorp/kit';
 
 <ToolSite tool="mirab" Link={Link}>
   <Hero
