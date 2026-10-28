@@ -66,7 +66,8 @@ export function Hero({ headline, sub, status, docs = '/docs/', github, installs,
   /** Where the tool stands, when a visitor should know before installing: "Early: not yet audited." */
   status?: string;
   docs?: string;
-  github: string;
+  /** The source, when it's public. */
+  github?: string;
   /** Empty until the tool can be installed; say why in `status`. */
   installs: Install[];
   reel: ReelScene[];
@@ -80,7 +81,7 @@ export function Hero({ headline, sub, status, docs = '/docs/', github, installs,
         {status && <p className="akt-status">{status}</p>}
         <div className="akt-btns">
           <Link className="akt-btn akt-main-btn" href={docs}>docs</Link>
-          <a className="akt-btn" href={github}>GitHub</a>
+          {github && <a className="akt-btn" href={github}>GitHub</a>}
         </div>
         {installs.length > 0 && <div className="akt-installs">
           {installs.map((install) => (
