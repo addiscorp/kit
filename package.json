@@ -1,7 +1,7 @@
 {
   "name": "@addiscorp/kit",
   "version": "0.1.0",
-  "description": "The header, footer and theme every Addis site shares, in each project's own brand colours.",
+  "description": "The header, footer, theme and tool-site layout every Addis site shares, in each project's own brand colours.",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
@@ -10,7 +10,8 @@
   },
   "homepage": "https://github.com/addiscorp/kit",
   "sideEffects": [
-    "./dist/kit.css"
+    "./dist/kit.css",
+    "./dist/tool.css"
   ],
   "files": [
     "dist"
@@ -20,10 +21,11 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./kit.css": "./dist/kit.css"
+    "./kit.css": "./dist/kit.css",
+    "./tool.css": "./dist/tool.css"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && cp src/kit.css dist/kit.css",
+    "build": "tsc -p tsconfig.build.json && cp src/kit.css dist/kit.css && cat src/tool/tool.css src/tool/palettes.css > dist/tool.css",
     "prepare": "npm run build",
     "typecheck": "tsc --noEmit",
     "test": "npm run build && node --test tests/*.test.mjs"
