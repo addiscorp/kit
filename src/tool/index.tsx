@@ -60,11 +60,14 @@ export type ReelScene = { title: string; caption: string; lines: ReelLine[] };
 const SCENE_SECONDS = 5;
 
 /** The hero: headline, buttons, install commands under them, and the demo reel on the right. */
-export function Hero({ headline, sub, docs = '/docs/', github, installs, reel, Link = PlainLink }: {
+export function Hero({ headline, sub, status, docs = '/docs/', github, installs, reel, Link = PlainLink }: {
   headline: Headline;
   sub: string;
+  /** Where the tool stands, when a visitor should know before installing: "Early: not yet audited." */
+  status?: string;
   docs?: string;
   github: string;
+  /** Empty until the tool can be installed; say why in `status`. */
   installs: Install[];
   reel: ReelScene[];
   Link?: LinkComponent;
@@ -74,18 +77,19 @@ export function Hero({ headline, sub, docs = '/docs/', github, installs, reel, L
       <div>
         <h1>{headline.before}<em>{headline.accent}</em>{headline.after}</h1>
         <p className="akt-sub">{sub}</p>
+        {status && <p className="akt-status">{status}</p>}
         <div className="akt-btns">
           <Link className="akt-btn akt-main-btn" href={docs}>docs</Link>
           <a className="akt-btn" href={github}>GitHub</a>
         </div>
-        <div className="akt-installs">
+        {installs.length > 0 && <div className="akt-installs">
           {installs.map((install) => (
             <div key={install.command}>
               <div className="akt-ilabel">{install.label}</div>
               <div className="akt-cmd"><code><b>$ </b>{install.command}</code><CopyButton text={install.command} /></div>
             </div>
           ))}
-        </div>
+        </div>}
       </div>
       <Reel scenes={reel} />
     </section>

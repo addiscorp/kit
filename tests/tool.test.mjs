@@ -51,6 +51,13 @@ test('the hero has the headline, the buttons, every install command and the reel
   assert.equal(doc.querySelectorAll('.akt-copy').length, 2);
   assert.equal(doc.querySelectorAll('.akt-scene').length, 2);
   assert.equal(doc.querySelectorAll('.akt-dots i').length, 2);
+  assert.equal(doc.querySelector('.akt-status'), null);
+});
+
+test('a tool that can’t be installed yet says why, and shows no install commands', () => {
+  const doc = page(h(kit.Hero, { headline: { before: 'PHP, in ', accent: 'pure Rust' }, sub: 's', status: 'Not released yet.', github: 'https://github.com/x', installs: [], reel }));
+  assert.equal(doc.querySelector('.akt-status').textContent, 'Not released yet.');
+  assert.equal(doc.querySelector('.akt-installs'), null);
 });
 
 test('the reel plays its scenes in turn: each starts when the one before ends, and its lines follow one another', () => {
