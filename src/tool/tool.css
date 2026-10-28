@@ -1,0 +1,151 @@
+/* The tool site (after zega.dev) and its docs (after rixse.dev). Each tool's
+   colours come from palettes.css by `data-tool`; everything else is shared. */
+.akt {
+  --akt-ground: #F1F2F4; --akt-card: #FFFFFF; --akt-ink: #11161D; --akt-soft: #56606B; --akt-faint: #D5DAE0; --akt-dots: #D9DDE2;
+  --akt-display: Urbanist, system-ui, sans-serif; --akt-body: "Instrument Sans", system-ui, sans-serif; --akt-mono: "JetBrains Mono", ui-monospace, monospace;
+  --akt-wm-weight: 900; --akt-wm-spacing: -0.035em;
+  /* The kit's header, footer and theme switch take the tool's colours. */
+  --ak-ground: var(--akt-ground); --ak-panel: var(--akt-card); --ak-ink: var(--akt-ink); --ak-soft: var(--akt-soft); --ak-edge: var(--akt-faint); --ak-accent: var(--akt-accent);
+  --ak-font: var(--akt-mono); --ak-display: var(--akt-display); --ak-width: 1180px;
+  --ak-cut: var(--akt-ground);
+  min-height: 100vh; display: flex; flex-direction: column;
+  background-color: var(--akt-ground); background-image: radial-gradient(var(--akt-dots) 1px, transparent 1.2px); background-size: 22px 22px;
+  color: var(--akt-ink); font: 16px/1.55 var(--akt-body);
+}
+:root[data-theme="dark"] .akt { --akt-ink: #E8ECEF; --akt-soft: #A0AAB4; --akt-wm-weight: 700; --akt-wm-spacing: -0.02em; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .akt { --akt-ink: #E8ECEF; --akt-soft: #A0AAB4; --akt-wm-weight: 700; --akt-wm-spacing: -0.02em; } }
+.akt *, .akt *::before, .akt *::after { box-sizing: border-box; }
+.akt a { color: inherit; }
+.akt > .ak-foot { width: min(1180px, calc(100% - 56px)); margin-top: auto; }
+
+/* Marks: both drawn, the theme shows one. */
+.akt-mark { display: inline-flex; flex: none; }
+.akt-mark svg { display: block; }
+.akt-mark .akt-dark { display: none; }
+:root[data-theme="dark"] .akt-mark .akt-light { display: none; }
+:root[data-theme="dark"] .akt-mark .akt-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .akt-mark .akt-light { display: none; }
+  :root:not([data-theme="light"]) .akt-mark .akt-dark { display: block; }
+}
+
+/* Header: the brand and docs. */
+.akt-main { width: min(1180px, calc(100% - 56px)); margin: 0 auto; flex: 1; }
+.akt-header { display: flex; align-items: center; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--akt-faint); }
+.akt-brand { display: inline-flex; align-items: center; gap: 10px; font: var(--akt-wm-weight) 25px/1 var(--akt-display); letter-spacing: var(--akt-wm-spacing); text-decoration: none; }
+.akt-header nav { display: flex; gap: 22px; font: 14px var(--akt-mono); color: var(--akt-soft); }
+.akt-header nav a { text-decoration: none; }
+.akt-header nav a:hover { color: var(--akt-accent); }
+
+/* Hero */
+.akt-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; padding: 72px 0 64px; }
+.akt-hero > * { min-width: 0; }
+.akt-hero h1 { font: 800 clamp(34px, 4.4vw, 52px)/1.08 var(--akt-display); letter-spacing: -0.03em; margin: 0; }
+.akt-hero h1 em { font-style: normal; color: var(--akt-accent); }
+.akt-sub { margin: 16px 0 0; color: var(--akt-soft); font-size: 18px; max-width: 40ch; }
+.akt-status { display: inline-block; margin: 14px 0 0; padding: 3px 10px; border: 1px solid var(--akt-faint); border-radius: 999px; font: 12px var(--akt-mono); color: var(--akt-soft); }
+.akt-btns { display: flex; gap: 10px; margin-top: 28px; }
+.akt-btn { display: inline-flex; align-items: center; min-height: 42px; padding: 0 18px; border-radius: 8px; font: 500 14px var(--akt-mono); text-decoration: none; border: 1px solid var(--akt-faint); background: var(--akt-card); }
+.akt-btn.akt-main-btn { background: var(--akt-btn); border-color: var(--akt-btn); color: var(--akt-onbtn); }
+.akt-btn:hover { filter: brightness(1.06); }
+.akt-installs { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+.akt-ilabel { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.akt-cmd { display: inline-flex; align-items: center; gap: 14px; max-width: 100%; background: var(--akt-card); border: 1px solid var(--akt-faint); border-radius: 8px; padding: 9px 9px 9px 14px; font: 13px var(--akt-mono); }
+.akt-cmd code { overflow-x: auto; white-space: nowrap; font: inherit; }
+.akt-cmd code b { color: var(--akt-accent); font-weight: 400; }
+.akt-copy { flex: none; border: 1px solid var(--akt-faint); border-radius: 5px; background: transparent; padding: 2px 8px; font: 11px var(--akt-mono); color: var(--akt-soft); cursor: pointer; }
+.akt-copy:hover { color: var(--akt-ink); }
+
+/* The demo reel: dark in both themes, tinted with the brand. */
+.akt-reel { background: var(--akt-reel); color: #E8ECEF; border: 1px solid var(--akt-reelline); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; min-height: 340px; box-shadow: 0 20px 50px -30px rgb(0 0 0 / .5); }
+.akt-stage { display: grid; flex: 1; }
+.akt-scene { grid-area: 1 / 1; display: flex; flex-direction: column; }
+.akt-tab { display: flex; align-items: center; gap: 8px; padding: 11px 16px; border-bottom: 1px solid var(--akt-reelline); font: 12px var(--akt-mono); color: #A0AAB4; }
+.akt-tab i { width: 7px; height: 7px; border-radius: 50%; background: var(--akt-reelacc); }
+.akt-term { padding: 16px 0 20px; font: 13px/2 var(--akt-mono); overflow-x: auto; flex: 1; }
+.akt-ln { display: flex; gap: 16px; padding: 0 18px; min-height: 2em; }
+.akt-tx { white-space: pre; }
+.akt-no { color: #56606B; width: 14px; text-align: right; flex: none; user-select: none; }
+.akt-command .akt-tx::before { content: "$ "; color: var(--akt-reelacc); }
+.akt-quiet .akt-tx { color: #8A949E; }
+.akt-accent .akt-tx { color: var(--akt-reelacc); }
+.akt-highlight { background: var(--akt-reelhl); box-shadow: inset 2px 0 var(--akt-reelacc); }
+.akt-cap { border-top: 1px solid var(--akt-reelline); padding: 11px 16px; font: 12px var(--akt-mono); color: #A0AAB4; background: rgb(255 255 255 / .025); }
+.akt-dots { display: flex; gap: 6px; justify-content: center; padding: 14px 0 0; }
+.akt-dots i { width: 14px; height: 3px; border-radius: 2px; background: var(--akt-dotoff); }
+@keyframes akt-line { 0% { opacity: 0; } 1.5%, 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .akt-scene, .akt-ln, .akt-dots i { animation: none !important; }
+  .akt-scene:not(:first-child) { visibility: hidden; }
+}
+
+/* Why <tool>: three benefits and the family. */
+.akt-why { padding: 8px 0 24px; }
+.akt-why h2 { font: 800 28px/1.1 var(--akt-display); letter-spacing: -0.02em; margin: 0 0 18px; display: flex; align-items: baseline; gap: 12px; }
+.akt-why h2 small, .akt-card h3 small { font: 400 13px var(--akt-mono); color: var(--akt-soft); letter-spacing: 0; }
+.akt-card h3 small { font-size: 12px; margin-left: 8px; }
+.akt-cards { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 16px; }
+.akt-card { background: var(--akt-card); border: 1px solid var(--akt-faint); border-radius: 12px; padding: 24px; --ak-cut: var(--akt-card); }
+.akt-cards .akt-card:nth-child(1), .akt-cards .akt-card:nth-child(2) { grid-column: span 5; }
+.akt-cards .akt-card:nth-child(3) { grid-column: span 4; }
+.akt-cards .akt-card:nth-child(4) { grid-column: span 6; }
+.akt-dash { width: 22px; height: 3px; border-radius: 2px; background: var(--akt-accent); margin-bottom: 16px; }
+.akt-card h3 { font: 700 19px/1.25 var(--akt-display); margin: 0 0 10px; letter-spacing: -0.01em; }
+.akt-card p { margin: 0; font: 13px/1.85 var(--akt-mono); color: var(--akt-soft); }
+.akt-family { display: flex; flex-direction: column; }
+.akt-row { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 16px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--akt-faint); font: 13px var(--akt-mono); text-decoration: none; }
+.akt-row:last-child { border-bottom: 0; }
+.akt-row strong { display: flex; align-items: center; gap: 8px; font: var(--akt-wm-weight) 16px/1 var(--akt-display); letter-spacing: var(--akt-wm-spacing); }
+.akt-row span { color: var(--akt-soft); }
+.akt-row[aria-current="page"] span, .akt-row:hover span { color: var(--akt-ink); }
+
+/* Docs, after rixse.dev: the pages down the side, the page on the right. */
+.akt-docs { background-image: none; }
+.akt-docs-grid { display: grid; grid-template-columns: 250px minmax(0, 760px); gap: clamp(24px, 5vw, 76px); width: 100%; max-width: 1160px; margin: 0 auto; padding: 32px clamp(16px, 4vw, 48px); flex: 1; }
+.akt-side { align-self: start; position: sticky; top: 24px; border-right: 1px solid var(--akt-faint); padding-right: 22px; max-height: calc(100vh - 48px); overflow: auto; }
+.akt-side .akt-brand { font-size: 21px; margin-bottom: 30px; }
+.akt-brand-docs { font: 600 21px/1 var(--akt-body); letter-spacing: 0; color: var(--akt-soft); }
+.akt-side nav { display: grid; gap: 4px; }
+.akt-side nav a { display: block; padding: 6px 9px; color: var(--akt-soft); border-radius: 6px; text-decoration: none; font-size: 14px; }
+.akt-side nav a:hover { color: var(--akt-ink); }
+.akt-side nav a[aria-current="page"] { background: var(--akt-card); color: var(--akt-ink); font-weight: 600; }
+.akt-side-note { font-size: 12px; color: var(--akt-soft); margin: 24px 8px 0; }
+.akt-doc { min-width: 0; padding: 42px 0 80px; }
+.akt-eyebrow { font-size: 12px; letter-spacing: .11em; text-transform: uppercase; color: var(--akt-soft); font-weight: 600; }
+.akt-doc h1 { font: 800 clamp(34px, 5vw, 48px)/1.1 var(--akt-display); letter-spacing: -0.03em; margin: 4px 0 16px; }
+.akt-lede { font-size: 19px; color: var(--akt-soft); max-width: 62ch; margin: 0 0 30px; }
+.akt-prose h2 { font: 700 22px/1.25 var(--akt-display); margin: 42px 0 10px; }
+.akt-prose h3 { font-size: 17px; margin: 26px 0 8px; }
+.akt-prose p { margin: 10px 0 16px; }
+.akt-prose ul, .akt-prose ol { padding-left: 1.35em; }
+.akt-prose li { margin: 5px 0; }
+.akt-prose a { color: var(--akt-accent); text-underline-offset: 3px; }
+.akt-prose code { font: .88em var(--akt-mono); overflow-wrap: anywhere; }
+.akt-prose table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; margin: 18px 0; }
+.akt-prose th, .akt-prose td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--akt-faint); }
+.akt-prose th { color: var(--akt-soft); font-size: 13px; }
+.akt-callout, .akt-step { background: var(--akt-card); border: 1px solid var(--akt-faint); border-radius: 12px; padding: 18px 20px; margin: 20px 0; }
+.akt-step { margin: 12px 0; }
+.akt-step-label { font: 600 12px var(--akt-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--akt-accent); margin-bottom: 8px; }
+.akt-step > :last-child { margin-bottom: 0; }
+.akt-code { position: relative; margin: 16px 0; }
+.akt-code pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--akt-card); border: 1px solid var(--akt-faint); border-radius: 10px; padding: 16px 64px 16px 16px; font: 13px/1.55 var(--akt-mono); }
+.akt-step .akt-code pre { background: var(--akt-ground); }
+.akt-code .akt-copy { position: absolute; top: 12px; right: 12px; }
+
+@media (max-width: 860px) {
+  .akt-main { width: calc(100% - 32px); }
+  .akt > .ak-foot { width: calc(100% - 32px); }
+  .akt-hero { grid-template-columns: minmax(0, 1fr); padding: 44px 0 40px; gap: 36px; }
+  .akt-reel { min-height: 300px; }
+  .akt-cards { grid-template-columns: minmax(0, 1fr); }
+  .akt-cards .akt-card { grid-column: auto !important; }
+  .akt-row { grid-template-columns: 96px minmax(0, 1fr); }
+  .akt-docs-grid { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 16px; }
+  .akt-side { position: static; border-right: 0; border-bottom: 1px solid var(--akt-faint); padding: 16px 0; max-height: none; }
+  .akt-side .akt-brand { margin-bottom: 12px; }
+  .akt-side nav { display: flex; gap: 4px; overflow-x: auto; }
+  .akt-side nav a { white-space: nowrap; }
+  .akt-side-note { display: none; }
+  .akt-doc { padding: 28px 0 60px; }
+}

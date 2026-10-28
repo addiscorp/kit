@@ -56,6 +56,42 @@ import { Header, Footer, HeaderButton, PersonIcon, themeBoot } from '@addiscorp/
 - **One item drawn your way**: `renderItem={(item, { active, current, shortcut, layout }) => …}`; return `undefined` to keep the kit's.
 - **A different layout entirely**: `useMenu({ groups, pathname, navigate })` is all the behaviour as a hook; wrap your own markup in `<HeaderProvider menu={menu}>` and use `Launcher`, `MenuPanel`, `MenuItems`, `HeaderButton` and `ShortcutsHelp` as you need them.
 
+## A tool's site
+
+Every Addis tool (rixse, mirab, woreda, kebele, gelada, harar, p8) gets the
+same site, after zega.dev: a hero with the install commands under the
+headline and a demo reel beside it, three benefits, the family of tools; and
+docs after rixse.dev. **Structure = kit, content = per site**: a site passes
+words, commands and demo lines, never markup of its own. The tools' marks and
+colours live here too, so every site and the family list agree.
+
+```tsx
+import '@addiscorp/kit/kit.css';
+import '@addiscorp/kit/tool.css';
+import { ToolSite, Hero, Why, DocsLayout, Code, Step, Callout } from '@addiscorp/kit';
+
+<ToolSite tool="mirab" Link={Link}>
+  <Hero
+    headline={{ before: 'Agents in VMs on ', accent: 'your own machine', after: '.' }}
+    sub="The agent never holds a credential."
+    github="https://github.com/addiscorp/mirab"
+    installs={[{ label: 'install the cli', command: 'curl -fsSL https://mirab.addis.gg/install.sh | sh' }]}
+    reel={[{ title: '~/ops', caption: 'an agent is a folder', lines: [{ text: 'mirab init ops', kind: 'command' }] }]}
+  />
+  <Why tool="mirab" benefits={[…three…]} />
+</ToolSite>
+
+<DocsLayout tool="mirab" pages={[{ href: '/docs/', title: 'Overview' }]} pathname={pathname} title="Overview" lede="…" Link={Link}>
+  …
+</DocsLayout>
+```
+
+- **The header** is the mark, the name and `docs`; nothing else until a tool needs it.
+- **The reel** is CSS only: its scenes play in turn, 5 s each, and each scene's lines appear one after another. With reduced motion it shows the first scene, still.
+- **Colours**: `data-tool` picks the tool's palette (`src/tool/palettes.css`, generated from its colour layout): one pale ground in light mode, a ground tinted with the brand in dark. The kit's footer and theme switch take the same colours.
+- **Marks** (`MARKS`, `<Mark tool size />`) are inline SVG for light and dark; the cut-outs between parts are `var(--ak-cut)`, set to whatever is behind the mark.
+- **Fonts**: the site loads Urbanist, Instrument Sans and JetBrains Mono.
+
 ## Develop
 
 ```sh
