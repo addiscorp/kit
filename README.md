@@ -60,7 +60,7 @@ import { Header, Footer, HeaderButton, PersonIcon, themeBoot } from '@addiscorp/
 
 Every Addis tool (rixse, mirab, woreda, kebele, gelada, harar, p8) gets the
 same site, after zega.dev: a hero with the install commands under the
-headline and a demo reel beside it, three benefits, the family of tools; and
+headline and a demo reel beside it, three benefits, the other Addis tools; and
 docs after rixse.dev. **Structure = kit, content = per site**: a site passes
 words, commands and demo lines, never markup of its own. The tools' marks and
 colours live here too, so every site and the family list agree.
@@ -75,7 +75,7 @@ import { ToolSite, Hero, Why, DocsLayout, Code, Step, Callout } from '@addiscorp
     headline={{ before: 'Agents in VMs on ', accent: 'your own machine', after: '.' }}
     sub="The agent never holds a credential."
     github="https://github.com/addiscorp/mirab"
-    installs={[{ label: 'install the cli', command: 'curl -fsSL https://mirab.addis.gg/install.sh | sh' }]}
+    installs={[{ label: 'install the cli', command: 'curl -fsSL https://mirab-releases.addis.gg/install.sh | sh' }]}
     reel={[{ title: '~/ops', caption: 'an agent is a folder', lines: [{ text: 'mirab init ops', kind: 'command' }] }]}
   />
   <Why tool="mirab" benefits={[…three…]} />

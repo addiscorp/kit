@@ -97,7 +97,7 @@
 .akt-row:last-child { border-bottom: 0; }
 .akt-row strong { display: flex; align-items: center; gap: 8px; font: var(--akt-wm-weight) 16px/1 var(--akt-display); letter-spacing: var(--akt-wm-spacing); }
 .akt-row span { color: var(--akt-soft); }
-.akt-row[aria-current="page"] span, .akt-row:hover span { color: var(--akt-ink); }
+.akt-row:hover span { color: var(--akt-ink); }
 
 /* Docs, after rixse.dev: the pages down the side, the page on the right. */
 .akt-docs { background-image: none; }

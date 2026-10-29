@@ -74,13 +74,13 @@ test('the reel plays its scenes in turn: each starts when the one before ends, a
   assert.match(doc.querySelector('style').textContent, /@keyframes akt-scene-2\{.*50\.00%,100%\{opacity:0\}/);
 });
 
-test('why lists three benefits and every tool, marking this one and linking the others to their sites', () => {
+test('why lists three benefits and the other tools, linked to their sites, never this one', () => {
   const doc = page(h(kit.Why, { tool: 'woreda', benefits: [{ title: 'a', text: '1' }, { title: 'b', text: '2' }, { title: 'c', text: '3' }] }));
   assert.equal(doc.querySelector('h2').textContent, 'Why woredathe short version');
   assert.equal(doc.querySelectorAll('.akt-dash').length, 3);
   const rows = [...doc.querySelectorAll('.akt-row')];
-  assert.deepEqual(rows.map((r) => r.getAttribute('href')), kit.TOOLS.map((t) => `https://${t.domain}`));
-  assert.deepEqual(rows.filter((r) => r.getAttribute('aria-current') === 'page').map((r) => r.textContent.slice(0, 6)), ['woreda']);
+  assert.deepEqual(rows.map((r) => r.getAttribute('href')), kit.TOOLS.filter((t) => t.id !== 'woreda').map((t) => `https://${t.domain}`));
+  assert.ok(!rows.some((r) => r.getAttribute('href') === 'https://woreda.addis.gg'), 'woreda must not list itself');
 });
 
 test('docs mark the page you are on, with or without a trailing slash', () => {

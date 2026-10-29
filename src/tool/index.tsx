@@ -137,7 +137,7 @@ export function Reel({ scenes }: { scenes: ReelScene[] }) {
 
 export type Benefit = { title: string; text: string };
 
-/** "Why <tool> · the short version": three benefits, and the family of Addis tools. */
+/** "Why <tool> · the short version": three benefits, and the other Addis tools. */
 export function Why({ tool, benefits }: { tool: ToolId; benefits: [Benefit, Benefit, Benefit] }) {
   return (
     <section className="akt-why">
@@ -153,8 +153,8 @@ export function Why({ tool, benefits }: { tool: ToolId; benefits: [Benefit, Bene
         <div className="akt-card">
           <h3>Addis tools<small>they work together</small></h3>
           <div className="akt-family">
-            {TOOLS.map((t) => (
-              <a key={t.id} className="akt-row" href={`https://${t.domain}`} aria-current={t.id === tool ? 'page' : undefined}>
+            {TOOLS.filter((t) => t.id !== tool).map((t) => (
+              <a key={t.id} className="akt-row" href={`https://${t.domain}`}>
                 <strong><Mark tool={t.id} size={18} />{t.id}</strong>
                 <span>{t.short}</span>
               </a>
