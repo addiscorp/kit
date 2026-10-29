@@ -26,11 +26,16 @@ export function Mark({ tool, size = 26 }: { tool: ToolId; size?: number }) {
   );
 }
 
+/** A link in a tool site's header, after docs: `{ label: 'test suite', href: 'https://p8-test-suite.addis.gg' }`. */
+export type HeaderLink = { label: string; href: string };
+
 /** Everything a tool site shows sits inside this: it sets the tool's colours, the header and the footer. */
-export function ToolSite({ tool, home = '/', docs = '/docs/', Link = PlainLink, children }: {
+export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], Link = PlainLink, children }: {
   tool: ToolId;
   home?: string;
   docs?: string;
+  /** More header links, after docs, for what only this tool has. */
+  links?: HeaderLink[];
   Link?: LinkComponent;
   children: ReactNode;
 }) {
@@ -41,6 +46,7 @@ export function ToolSite({ tool, home = '/', docs = '/docs/', Link = PlainLink, 
           <Link className="akt-brand" href={home}><Mark tool={tool} />{tool}</Link>
           <nav aria-label="Main">
             <Link href={docs}>docs</Link>
+            {links.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}
           </nav>
         </header>
         {children}
