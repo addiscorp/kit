@@ -37,6 +37,12 @@ test('the site wraps the page in the tool’s colours, with only docs in the hea
   assert.match(doc.querySelector('.ak-foot').textContent, /harar\.addis\.gg/);
 });
 
+test('a site can add its own header links, after docs', () => {
+  const doc = page(h(kit.ToolSite, { tool: 'p8', links: [{ label: 'test suite', href: 'https://p8-test-suite.addis.gg' }] }, h('p', null, 'hi')));
+  assert.deepEqual([...doc.querySelectorAll('.akt-header nav a')].map((a) => [a.textContent, a.getAttribute('href')]),
+    [['docs', '/docs/'], ['test suite', 'https://p8-test-suite.addis.gg']]);
+});
+
 test('the hero has the headline, the buttons, every install command and the reel', () => {
   const doc = page(h(kit.Hero, {
     headline: { before: 'Agents in VMs on ', accent: 'your own machine', after: '.' }, sub: 'No keys inside.',

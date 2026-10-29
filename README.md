@@ -86,7 +86,7 @@ import { ToolSite, Hero, Why, DocsLayout, Code, Step, Callout } from '@addiscorp
 </DocsLayout>
 ```
 
-- **The header** is the mark, the name and `docs`; nothing else until a tool needs it.
+- **The header** is the mark, the name and `docs`. A tool that has more to link adds it after docs with `links` (p8: `links={[{ label: 'test suite', href: 'https://p8-test-suite.addis.gg' }]}`).
 - **The reel** is CSS only: its scenes play in turn, 5 s each, and each scene's lines appear one after another. With reduced motion it shows the first scene, still.
 - **Colours**: `data-tool` picks the tool's palette (`src/tool/palettes.css`, generated from its colour layout): one pale ground in light mode, a ground tinted with the brand in dark. The kit's footer and theme switch take the same colours.
 - **Marks** (`MARKS`, `<Mark tool size />`) are inline SVG for light and dark; the cut-outs between parts are `var(--ak-cut)`, set to whatever is behind the mark.
