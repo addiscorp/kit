@@ -7,9 +7,9 @@ import type { LinkComponent } from '../header/index.js';
 import { Footer } from '../footer/index.js';
 import { CopyButton } from './copy.js';
 import { MARKS } from './marks.js';
-import { TOOLS, toolInfo, type ToolId } from './tools.js';
+import { TOOLS, toolInfo, toolName, type ToolId } from './tools.js';
 
-export { TOOLS, toolInfo, type ToolId, type ToolInfo } from './tools.js';
+export { TOOLS, toolInfo, toolName, type ToolId, type ToolInfo } from './tools.js';
 export { MARKS } from './marks.js';
 export { CopyButton } from './copy.js';
 
@@ -30,12 +30,14 @@ export function Mark({ tool, size = 26 }: { tool: ToolId; size?: number }) {
 export type HeaderLink = { label: string; href: string };
 
 /** Everything a tool site shows sits inside this: it sets the tool's colours, the header and the footer. */
-export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], Link = PlainLink, children }: {
+export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footnote, Link = PlainLink, children }: {
   tool: ToolId;
   home?: string;
   docs?: string;
   /** More header links, after docs, for what only this tool has. */
   links?: HeaderLink[];
+  /** A small line under the footer, e.g. trademark notices. */
+  footnote?: ReactNode;
   Link?: LinkComponent;
   children: ReactNode;
 }) {
@@ -43,7 +45,7 @@ export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], Link =
     <div className="akt" data-tool={tool}>
       <main className="akt-main">
         <header className="akt-header">
-          <Link className="akt-brand" href={home}><Mark tool={tool} />{tool}</Link>
+          <Link className="akt-brand" href={home}><Mark tool={tool} />{toolName(tool)}</Link>
           <nav aria-label="Main">
             <Link href={docs}>docs</Link>
             {links.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}
@@ -51,7 +53,7 @@ export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], Link =
         </header>
         {children}
       </main>
-      <Footer site={toolInfo(tool).domain} />
+      <Footer site={toolInfo(tool).domain} note={footnote} />
     </div>
   );
 }
@@ -147,7 +149,7 @@ export type Benefit = { title: string; text: string };
 export function Why({ tool, benefits }: { tool: ToolId; benefits: [Benefit, Benefit, Benefit] }) {
   return (
     <section className="akt-why">
-      <h2>Why {tool}<small>the short version</small></h2>
+      <h2>Why {toolName(tool)}<small>the short version</small></h2>
       <div className="akt-cards">
         {benefits.map((benefit) => (
           <div className="akt-card" key={benefit.title}>
@@ -161,7 +163,7 @@ export function Why({ tool, benefits }: { tool: ToolId; benefits: [Benefit, Bene
           <div className="akt-family">
             {TOOLS.filter((t) => t.id !== tool).map((t) => (
               <a key={t.id} className="akt-row" href={`https://${t.domain}`}>
-                <strong><Mark tool={t.id} size={18} />{t.id}</strong>
+                <strong><Mark tool={t.id} size={18} />{t.name ?? t.id}</strong>
                 <span>{t.short}</span>
               </a>
             ))}
@@ -175,7 +177,7 @@ export function Why({ tool, benefits }: { tool: ToolId; benefits: [Benefit, Bene
 export type DocsPage = { href: string; title: string };
 
 /** The docs, after rixse.dev: the pages down the side, the page on the right. */
-export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', title, lede, note, home = '/', Link = PlainLink, children }: {
+export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', title, lede, note, footnote, home = '/', Link = PlainLink, children }: {
   tool: ToolId;
   pages: DocsPage[];
   pathname: string;
@@ -184,6 +186,8 @@ export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', t
   lede?: string;
   /** A small note under the page list, e.g. what the docs describe. */
   note?: string;
+  /** A small line under the footer, e.g. trademark notices. */
+  footnote?: ReactNode;
   home?: string;
   Link?: LinkComponent;
   children: ReactNode;
@@ -193,7 +197,7 @@ export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', t
     <div className="akt akt-docs" data-tool={tool}>
       <div className="akt-docs-grid">
         <aside className="akt-side">
-          <Link className="akt-brand" href={home}><Mark tool={tool} />{tool}<span className="akt-brand-docs">docs</span></Link>
+          <Link className="akt-brand" href={home}><Mark tool={tool} />{toolName(tool)}<span className="akt-brand-docs">docs</span></Link>
           <nav aria-label="Docs">
             {pages.map((page) => (
               <Link key={page.href} href={page.href} aria-current={here(page.href) ? 'page' : undefined}>{page.title}</Link>
@@ -208,7 +212,7 @@ export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', t
           <div className="akt-prose">{children}</div>
         </article>
       </div>
-      <Footer site={toolInfo(tool).domain} />
+      <Footer site={toolInfo(tool).domain} note={footnote} />
     </div>
   );
 }

@@ -101,3 +101,26 @@ test('docs mark the page you are on, with or without a trailing slash', () => {
   assert.equal(doc.querySelector('.akt-code pre').textContent, 'p8 hello.php');
   assert.ok(doc.querySelector('.akt-code .akt-copy'));
 });
+
+test('a tool with a display name shows it everywhere it is named; the others show their id', () => {
+  const benefits = [{ title: 'a', text: '1' }, { title: 'b', text: '2' }, { title: 'c', text: '3' }];
+  const site = page(h(kit.ToolSite, { tool: 'securecore' }, h(kit.Why, { tool: 'securecore', benefits })));
+  assert.equal(site.querySelector('.akt-header .akt-brand').textContent, 'SecureCore');
+  assert.equal(site.querySelector('.akt-why h2').textContent, 'Why SecureCorethe short version');
+  assert.match(site.querySelector('.ak-foot').textContent, /securecore\.addis\.gg/, 'the domain stays lowercase');
+  const docs = page(h(kit.DocsLayout, { tool: 'securecore', pages: [{ href: '/docs/', title: 'Overview' }], pathname: '/docs/', title: 'Overview' }, h('p', null, 'x')));
+  assert.equal(docs.querySelector('.akt-side .akt-brand').textContent, 'SecureCoredocs');
+  // In another tool's family list: the display name for securecore, the id for every other tool.
+  const names = [...page(h(kit.Why, { tool: 'harar', benefits })).querySelectorAll('.akt-row strong')].map((s) => s.textContent);
+  assert.deepEqual(names, kit.TOOLS.filter((t) => t.id !== 'harar').map((t) => (t.id === 'securecore' ? 'SecureCore' : t.id)));
+  assert.equal(page(h(kit.ToolSite, { tool: 'harar' }, null)).querySelector('.akt-brand').textContent, 'harar');
+});
+
+test('a site’s footnote is a line in its footer, on the site and in its docs; without one there is none', () => {
+  const note = 'WordPress® is a registered trademark of the WordPress Foundation.';
+  const site = page(h(kit.ToolSite, { tool: 'securecore', footnote: note }, h('p', null, 'hi')));
+  assert.equal(site.querySelector('.ak-foot .ak-foot-note').textContent, note);
+  const docs = page(h(kit.DocsLayout, { tool: 'securecore', pages: [], pathname: '/docs/', title: 'Overview', footnote: note }, h('p', null, 'x')));
+  assert.equal(docs.querySelector('.ak-foot .ak-foot-note').textContent, note);
+  assert.equal(page(h(kit.ToolSite, { tool: 'harar' }, h('p', null, 'hi'))).querySelector('.ak-foot-note'), null);
+});

@@ -108,6 +108,7 @@
 .ak-credit { display: inline-flex; align-items: center; gap: 8px; color: var(--ak-ink); text-decoration: none; }
 .ak-credit img, .ak-owner-mark { width: 32px; height: 32px; border-radius: 50%; }
 .ak-foot-end { display: inline-flex; align-items: center; gap: 12px; }
+.ak-foot-note { flex-basis: 100%; margin: 0; font-size: 11px; line-height: 1.6; color: var(--ak-soft); opacity: .8; }
 
 /* The theme switch */
 .ak-theme-toggle { box-sizing: border-box; border: 0; background: transparent; border-radius: 4px; color: inherit; cursor: pointer; display: inline-flex; height: 32px; width: 32px; align-items: center; justify-content: center; padding: 8px; }

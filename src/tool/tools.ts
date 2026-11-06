@@ -7,6 +7,8 @@ export type ToolInfo = {
   domain: string;
   /** One line, as the family list shows it. */
   short: string;
+  /** The name as shown, when it isn't the id: `SecureCore`. */
+  name?: string;
 };
 
 export const TOOLS: ToolInfo[] = [
@@ -17,11 +19,16 @@ export const TOOLS: ToolInfo[] = [
   { id: 'gelada', domain: 'gelada.addis.gg', short: 'OS sandboxes, without a container.' },
   { id: 'harar', domain: 'harar.addis.gg', short: 'A simple vault for your keys.' },
   { id: 'p8', domain: 'p8.addis.gg', short: 'PHP in pure Rust. Memory-safe.' },
-  { id: 'securecore', domain: 'securecore.addis.gg', short: 'Every WordPress plugin in its own sandbox.' },
+  { id: 'securecore', name: 'SecureCore', domain: 'securecore.addis.gg', short: 'Every WordPress plugin in its own sandbox.' },
 ];
 
 export function toolInfo(id: ToolId): ToolInfo {
   const info = TOOLS.find((t) => t.id === id);
   if (!info) throw new Error(`unknown tool: ${id}`);
   return info;
+}
+
+/** A tool's name as every site shows it: its display name, else its id. */
+export function toolName(id: ToolId): string {
+  return toolInfo(id).name ?? id;
 }
