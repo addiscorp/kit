@@ -98,6 +98,14 @@
 .akt-row strong { display: flex; align-items: center; gap: 8px; font: var(--akt-wm-weight) 16px/1 var(--akt-display); letter-spacing: var(--akt-wm-spacing); }
 .akt-row span { color: var(--akt-soft); }
 .akt-row:hover span { color: var(--akt-ink); }
+/* "Works with": a logo (or nothing, where the owner allows the name only), the name, a note under it. */
+.akt-work { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--akt-faint); }
+.akt-work:last-child { border-bottom: 0; }
+.akt-work > div { grid-column: 2; display: flex; flex-direction: column; gap: 3px; }
+.akt-work strong { font: var(--akt-wm-weight) 16px/1.2 var(--akt-display); letter-spacing: var(--akt-wm-spacing); }
+.akt-work span:not(.akt-work-logo) { font: 12px/1.5 var(--akt-mono); color: var(--akt-soft); }
+.akt-work-logo { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; }
+.akt-work-logo img { width: 28px; height: 28px; object-fit: contain; }
 
 /* Docs, after rixse.dev: the pages down the side, the page on the right. */
 .akt-docs { background-image: none; }
