@@ -145,8 +145,21 @@ export function Reel({ scenes }: { scenes: ReelScene[] }) {
 
 export type Benefit = { title: string; text: string };
 
-/** "Why <tool> · the short version": three benefits, and the other Addis tools. */
-export function Why({ tool, benefits }: { tool: ToolId; benefits: [Benefit, Benefit, Benefit] }) {
+/**
+ * Something the tool works with: a name, and its logo when the owner allows reference use
+ * (an image the site serves itself; `dark` when it needs another one on a dark ground).
+ */
+export type WorksItem = { name: string; logo?: { light: string; dark?: string }; note?: string };
+export type WorksWith = { title: string; note?: string; items: WorksItem[] };
+
+/**
+ * "Why <tool> · the short version": three benefits, and the other Addis tools. A tool can put a
+ * "Works with" card in the third benefit's place instead.
+ */
+export function Why({ tool, benefits, works }: { tool: ToolId } & (
+  | { benefits: [Benefit, Benefit, Benefit]; works?: never }
+  | { benefits: [Benefit, Benefit]; works: WorksWith }
+)) {
   return (
     <section className="akt-why">
       <h2>Why {toolName(tool)}<small>the short version</small></h2>
@@ -158,6 +171,7 @@ export function Why({ tool, benefits }: { tool: ToolId; benefits: [Benefit, Bene
             <p>{benefit.text}</p>
           </div>
         ))}
+        {works && <Works works={works} />}
         <div className="akt-card">
           <h3>Addis tools<small>they work together</small></h3>
           <div className="akt-family">
@@ -171,6 +185,27 @@ export function Why({ tool, benefits }: { tool: ToolId; benefits: [Benefit, Bene
         </div>
       </div>
     </section>
+  );
+}
+
+function Works({ works }: { works: WorksWith }) {
+  return (
+    <div className="akt-card akt-works">
+      <h3>{works.title}{works.note && <small>{works.note}</small>}</h3>
+      <div className="akt-family">
+        {works.items.map((item) => (
+          <div key={item.name} className="akt-work">
+            {item.logo && (item.logo.dark
+              ? <span className="akt-mark akt-work-logo"><img className="akt-light" src={item.logo.light} alt="" /><img className="akt-dark" src={item.logo.dark} alt="" /></span>
+              : <span className="akt-work-logo"><img src={item.logo.light} alt="" /></span>)}
+            <div>
+              <strong>{item.name}</strong>
+              {item.note && <span>{item.note}</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

@@ -124,3 +124,33 @@ test('a site’s footnote is a line in its footer, on the site and in its docs; 
   assert.equal(docs.querySelector('.ak-foot .ak-foot-note').textContent, note);
   assert.equal(page(h(kit.ToolSite, { tool: 'harar' }, h('p', null, 'hi'))).querySelector('.ak-foot-note'), null);
 });
+
+test('a "works with" card takes the third benefit’s place: logos where given, names always, notes under them', () => {
+  const works = {
+    title: 'Works with',
+    items: [
+      { name: 'WordPress', logo: { light: '/logos/w.png', dark: '/logos/w-white.png' }, note: 'core stays on your PHP' },
+      { name: 'WooCommerce', note: 'runs trusted, outside the sandbox' },
+      { name: 'Some Plugin', logo: { light: '/icons/some.png' } },
+    ],
+  };
+  const doc = page(h(kit.Why, { tool: 'securecore', benefits: [{ title: 'a', text: '1' }, { title: 'b', text: '2' }], works }));
+  const cards = [...doc.querySelectorAll('.akt-cards > .akt-card')];
+  assert.deepEqual(cards.map((c) => c.querySelector('h3').firstChild.textContent), ['a', 'b', 'Works with', 'Addis tools']);
+  const rows = [...cards[2].querySelectorAll('.akt-work')];
+  assert.deepEqual(rows.map((r) => r.querySelector('strong').textContent), ['WordPress', 'WooCommerce', 'Some Plugin']);
+  // Light and dark logos, switched by the theme like the marks; one logo when it reads on both grounds.
+  assert.deepEqual([...rows[0].querySelectorAll('.akt-mark img')].map((i) => [i.className, i.getAttribute('src')]),
+    [['akt-light', '/logos/w.png'], ['akt-dark', '/logos/w-white.png']]);
+  const note = (row) => row.querySelector(':scope > div > span');
+  assert.equal(note(rows[0]).textContent, 'core stays on your PHP');
+  // A name the owner allows only as plain text has no image at all.
+  assert.equal(rows[1].querySelector('img'), null);
+  assert.equal(note(rows[1]).textContent, 'runs trusted, outside the sandbox');
+  assert.deepEqual([...rows[2].querySelectorAll('img')].map((i) => i.getAttribute('src')), ['/icons/some.png']);
+  assert.equal(note(rows[2]), null);
+  // Three benefits and no card: as before.
+  const three = page(h(kit.Why, { tool: 'woreda', benefits: [{ title: 'a', text: '1' }, { title: 'b', text: '2' }, { title: 'c', text: '3' }] }));
+  assert.equal(three.querySelector('.akt-works'), null);
+  assert.equal(three.querySelectorAll('.akt-cards > .akt-card').length, 4);
+});
