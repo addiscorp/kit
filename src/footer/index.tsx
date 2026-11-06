@@ -20,9 +20,11 @@ export type FooterProps = {
   year?: number;
   /** Anything else for the end of the footer, before the theme switch. */
   children?: ReactNode;
+  /** A small line under the footer row, e.g. trademark notices. */
+  note?: ReactNode;
 };
 
-export function Footer({ site, owner = ADDIS, year = new Date().getFullYear(), children }: FooterProps) {
+export function Footer({ site, owner = ADDIS, year = new Date().getFullYear(), children, note }: FooterProps) {
   return (
     <footer className="ak-foot">
       <a className="ak-credit" href={owner.href}>
@@ -34,6 +36,7 @@ export function Footer({ site, owner = ADDIS, year = new Date().getFullYear(), c
         <span>{site}</span>
         <ThemeToggle />
       </span>
+      {note && <p className="ak-foot-note">{note}</p>}
     </footer>
   );
 }
