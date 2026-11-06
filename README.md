@@ -58,7 +58,7 @@ import { Header, Footer, HeaderButton, PersonIcon, themeBoot } from '@addiscorp/
 
 ## A tool's site
 
-Every Addis tool (rixse, mirab, woreda, kebele, gelada, harar, p8) gets the
+Every Addis tool (rixse, mirab, woreda, kebele, gelada, harar, p8, securecore) gets the
 same site, after zega.dev: a hero with the install commands under the
 headline and a demo reel beside it, three benefits, the other Addis tools; and
 docs after rixse.dev. **Structure = kit, content = per site**: a site passes
