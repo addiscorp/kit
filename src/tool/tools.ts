@@ -12,7 +12,7 @@ export type ToolInfo = {
 };
 
 export const TOOLS: ToolInfo[] = [
-  { id: 'rixse', domain: 'rixse.dev', short: 'The gateway. Agents ask, you decide.' },
+  { id: 'rixse', domain: 'rixse.addis.gg', short: 'The gateway. Agents ask, you decide.' },
   { id: 'mirab', domain: 'mirab.addis.gg', short: 'Agents in VMs on your own machine.' },
   { id: 'woreda', domain: 'woreda.addis.gg', short: 'Self-hosted GitHub Actions runners.' },
   { id: 'kebele', domain: 'kebele.addis.gg', short: 'Container stacks over the Docker socket.' },

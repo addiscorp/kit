@@ -67,8 +67,21 @@ export type ReelScene = { title: string; caption: string; lines: ReelLine[] };
 
 const SCENE_SECONDS = 5;
 
-/** The hero: headline, buttons, install commands under them, and the demo reel on the right. */
-export function Hero({ headline, sub, status, docs = '/docs/', github, installs, reel, Link = PlainLink }: {
+/**
+ * A screenshot of the app, in each theme: images the site serves itself
+ * (`dark` when the app looks different on a dark ground). Width and height
+ * are the image's own, so the page keeps its place while it loads.
+ */
+export type Shot = { light: string; dark?: string; alt: string; width: number; height: number };
+/** A screen of the app and what it shows, for the tour. */
+export type Feature = { title: string; text: string; shot: Shot };
+
+/**
+ * The hero: headline, buttons, install commands under them, and the demo
+ * beside them: the reel for a tool you run in a terminal, or, for an app, a
+ * screenshot of it, under the words and as wide as the page.
+ */
+export function Hero({ headline, sub, status, docs = '/docs/', github, installs, reel, shot, Link = PlainLink }: {
   headline: Headline;
   sub: string;
   /** Where the tool stands, when a visitor should know before installing: "Early: not yet audited." */
@@ -78,11 +91,10 @@ export function Hero({ headline, sub, status, docs = '/docs/', github, installs,
   github?: string;
   /** Empty until the tool can be installed; say why in `status`. */
   installs: Install[];
-  reel: ReelScene[];
   Link?: LinkComponent;
-}) {
+} & ({ reel: ReelScene[]; shot?: never } | { shot: Shot; reel?: never })) {
   return (
-    <section className="akt-hero">
+    <section className={shot ? 'akt-hero akt-hero-app' : 'akt-hero'}>
       <div>
         <h1>{headline.before}<em>{headline.accent}</em>{headline.after}</h1>
         <p className="akt-sub">{sub}</p>
@@ -100,7 +112,39 @@ export function Hero({ headline, sub, status, docs = '/docs/', github, installs,
           ))}
         </div>}
       </div>
-      <Reel scenes={reel} />
+      {shot ? <Screen shot={shot} eager /> : <Reel scenes={reel ?? []} />}
+    </section>
+  );
+}
+
+/** A screenshot in a window frame, in the page's theme. */
+export function Screen({ shot, eager = false }: { shot: Shot; eager?: boolean }) {
+  const img = (src: string, className?: string) => (
+    <img className={className} src={src} alt={shot.alt} width={shot.width} height={shot.height} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  );
+  return (
+    <figure className="akt-screen">
+      <div className="akt-chrome" aria-hidden="true"><i /><i /><i /></div>
+      {shot.dark ? <>{img(shot.light, 'akt-light')}{img(shot.dark, 'akt-dark')}</> : img(shot.light)}
+    </figure>
+  );
+}
+
+/** The app, screen by screen: what each one is for, beside it, sides alternating. */
+export function Tour({ features, title = 'A look around' }: { features: Feature[]; title?: string }) {
+  return (
+    <section className="akt-tour">
+      <h2>{title}</h2>
+      {features.map((feature) => (
+        <div className="akt-feature" key={feature.title}>
+          <div className="akt-feature-text">
+            <div className="akt-dash" />
+            <h3>{feature.title}</h3>
+            <p>{feature.text}</p>
+          </div>
+          <Screen shot={feature.shot} />
+        </div>
+      ))}
     </section>
   );
 }

@@ -154,3 +154,32 @@ test('a "works with" card takes the third benefit’s place: logos where given, 
   assert.equal(three.querySelector('.akt-works'), null);
   assert.equal(three.querySelectorAll('.akt-cards > .akt-card').length, 4);
 });
+
+const shot = (name) => ({ light: `/shots/${name}-light.png`, dark: `/shots/${name}-dark.png`, alt: `the ${name} screen`, width: 1440, height: 900 });
+
+test('an app’s hero shows the app: its screenshot in both themes, under the words, and no reel', () => {
+  const doc = page(h(kit.Hero, { headline: { before: 'a ', accent: 'b' }, sub: 's', installs: [], shot: shot('channel') }));
+  assert.ok(doc.querySelector('.akt-hero').classList.contains('akt-hero-app'));
+  assert.equal(doc.querySelector('.akt-reel'), null);
+  const imgs = [...doc.querySelectorAll('.akt-screen img')];
+  assert.deepEqual(imgs.map((i) => [i.getAttribute('src'), i.className, i.getAttribute('alt'), i.getAttribute('width'), i.getAttribute('loading')]), [
+    ['/shots/channel-light.png', 'akt-light', 'the channel screen', '1440', 'eager'],
+    ['/shots/channel-dark.png', 'akt-dark', 'the channel screen', '1440', 'eager'],
+  ]);
+});
+
+test('the theme shows one of a screenshot’s two images', () => {
+  const css = readFileSync(new URL('../dist/tool.css', import.meta.url), 'utf8');
+  assert.match(css, /\.akt-screen \.akt-dark \{ display: none; \}/);
+  assert.match(css, /:root\[data-theme="dark"\] \.akt-screen \.akt-light \{ display: none; \}/);
+  assert.match(css, /:root:not\(\[data-theme="light"\]\) \.akt-screen \.akt-dark \{ display: block; \}/);
+});
+
+test('the tour shows each screen with what it’s for, loaded as the visitor scrolls', () => {
+  const features = [{ title: 'Org', text: 'seats', shot: shot('org') }, { title: 'Access', text: 'rules', shot: { ...shot('access'), dark: undefined } }];
+  const doc = page(h(kit.Tour, { features }));
+  const rows = [...doc.querySelectorAll('.akt-feature')];
+  assert.deepEqual(rows.map((r) => r.querySelector('h3').textContent), ['Org', 'Access']);
+  assert.deepEqual(rows.map((r) => r.querySelectorAll('img').length), [2, 1]);
+  assert.ok([...doc.querySelectorAll('img')].every((i) => i.getAttribute('loading') === 'lazy'));
+});
