@@ -1,5 +1,5 @@
 // The Addis tools: the family every tool site lists, in the order addis.gg shows them.
-export type ToolId = 'rixse' | 'mirab' | 'woreda' | 'kebele' | 'gelada' | 'harar' | 'p8' | 'securecore';
+export type ToolId = 'rixse' | 'mirab' | 'woreda' | 'kebele' | 'gelada' | 'harar' | 'p8' | 'securecore' | 'gild';
 
 export type ToolInfo = {
   id: ToolId;
@@ -20,6 +20,7 @@ export const TOOLS: ToolInfo[] = [
   { id: 'harar', domain: 'harar.addis.gg', short: 'A simple vault for your keys.' },
   { id: 'p8', domain: 'p8.addis.gg', short: 'PHP in pure Rust. Memory-safe.' },
   { id: 'securecore', name: 'SecureCore', domain: 'securecore.addis.gg', short: 'Every WordPress plugin in its own sandbox.' },
+  { id: 'gild', domain: 'gild.addis.gg', short: 'Channels where people and agents work together.' },
 ];
 
 export function toolInfo(id: ToolId): ToolInfo {
