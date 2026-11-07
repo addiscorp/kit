@@ -56,6 +56,33 @@
 .akt-copy { flex: none; border: 1px solid var(--akt-faint); border-radius: 5px; background: transparent; padding: 2px 8px; font: 11px var(--akt-mono); color: var(--akt-soft); cursor: pointer; }
 .akt-copy:hover { color: var(--akt-ink); }
 
+/* An app's hero: the words, then the app as wide as the page. */
+.akt-hero-app { grid-template-columns: minmax(0, 1fr); gap: 44px; padding-bottom: 40px; }
+.akt-hero-app h1 { font-size: clamp(36px, 5vw, 60px); }
+.akt-hero-app .akt-sub { max-width: 52ch; }
+
+/* A screenshot in a window frame; both themes' images drawn, the theme shows one. */
+.akt-screen { margin: 0; border: 1px solid var(--akt-faint); border-radius: 12px; overflow: hidden; background: var(--akt-card); box-shadow: 0 30px 70px -40px rgb(0 0 0 / .55); }
+.akt-screen img { display: block; width: 100%; height: auto; }
+.akt-chrome { display: flex; gap: 7px; padding: 10px 14px; border-bottom: 1px solid var(--akt-faint); }
+.akt-chrome i { width: 10px; height: 10px; border-radius: 50%; background: var(--akt-faint); }
+.akt-screen .akt-dark { display: none; }
+:root[data-theme="dark"] .akt-screen .akt-light { display: none; }
+:root[data-theme="dark"] .akt-screen .akt-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .akt-screen .akt-light { display: none; }
+  :root:not([data-theme="light"]) .akt-screen .akt-dark { display: block; }
+}
+
+/* The tour: a screen and what it's for, sides alternating. */
+.akt-tour { padding: 40px 0 24px; }
+.akt-tour h2 { font: 800 30px/1.1 var(--akt-display); letter-spacing: -0.02em; margin: 0 0 28px; }
+.akt-feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); gap: 44px; align-items: center; padding: 28px 0; }
+.akt-feature:nth-of-type(even) .akt-feature-text { order: 2; }
+.akt-feature:nth-of-type(even) { grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); }
+.akt-feature h3 { font: 700 22px/1.2 var(--akt-display); margin: 0 0 10px; }
+.akt-feature p { margin: 0; color: var(--akt-soft); }
+
 /* The demo reel: dark in both themes, tinted with the brand. */
 .akt-reel { background: var(--akt-reel); color: #E8ECEF; border: 1px solid var(--akt-reelline); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; min-height: 340px; box-shadow: 0 20px 50px -30px rgb(0 0 0 / .5); }
 .akt-stage { display: grid; flex: 1; }
@@ -142,6 +169,8 @@
 .akt-code .akt-copy { position: absolute; top: 12px; right: 12px; }
 
 @media (max-width: 860px) {
+  .akt-feature, .akt-feature:nth-of-type(even) { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .akt-feature:nth-of-type(even) .akt-feature-text { order: 0; }
   .akt-main { width: calc(100% - 32px); }
   .akt > .ak-foot { width: calc(100% - 32px); }
   .akt-hero { grid-template-columns: minmax(0, 1fr); padding: 44px 0 40px; gap: 36px; }
