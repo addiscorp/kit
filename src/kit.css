@@ -117,7 +117,9 @@
 .ak-pill b { color: var(--ak-ink); font-weight: 600; }
 .ak-pill i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--ak-accent); box-shadow: 0 0 0 1.5px var(--ak-accent) inset; }
 .ak-status[data-status="alpha"] i { background: transparent; }
-a.ak-pill:hover { border-color: var(--ak-accent); color: var(--ak-ink); }
+/* Stronger than a site's own `a { color }`, so the link pill reads exactly like the status pill. */
+.ak-pills > .ak-pill { color: var(--ak-soft); }
+.ak-pills > a.ak-pill:hover { border-color: var(--ak-accent); color: var(--ak-ink); }
 
 /* The license (APS 17): the footer line, the hero badge and the license page. */
 .ak-license a { color: inherit; text-decoration: none; }
