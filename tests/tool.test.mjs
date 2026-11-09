@@ -57,12 +57,13 @@ test('the hero has the headline, the buttons, every install command and the reel
   assert.equal(doc.querySelectorAll('.akt-copy').length, 2);
   assert.equal(doc.querySelectorAll('.akt-scene').length, 2);
   assert.equal(doc.querySelectorAll('.akt-dots i').length, 2);
-  assert.equal(doc.querySelector('.akt-status'), null);
+  assert.equal(doc.querySelector('.ak-pills'), null);
 });
 
 test('a tool that can’t be installed yet says why, and shows no install commands or private source', () => {
-  const doc = page(h(kit.Hero, { headline: { before: 'PHP, in ', accent: 'pure Rust' }, sub: 's', status: 'alpha', statusNote: 'Not released yet.', installs: [], reel }));
-  assert.equal(doc.querySelector('.akt-status').textContent, 'Status: Alpha · Not released yet.');
+  const doc = page(h(kit.Hero, { headline: { before: 'PHP, in ', accent: 'pure Rust' }, sub: 'Not released yet.', status: 'alpha', installs: [], reel }));
+  assert.equal(doc.querySelector('.akt-sub').textContent, 'Not released yet.');
+  assert.equal(doc.querySelector('.ak-status').textContent, 'Status: Alpha');
   assert.deepEqual([...doc.querySelectorAll('.akt-btn')].map((a) => a.textContent), ['docs'], 'no GitHub button for private source');
   assert.equal(doc.querySelector('.akt-installs'), null);
 });

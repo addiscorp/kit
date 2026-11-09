@@ -1,7 +1,7 @@
 // The license, once (APS 17: Addis products are MIT, `Copyright (c) <year> Sami Fouad`).
 // One description of a product's license drives all four places a site shows
 // it, so they can't disagree: the text (`mitLicense`), the footer line
-// (`LicenseLink`), the hero badge (`LicenseBadge`) and the page (`LicenseView`).
+// (`LicenseLink`), the hero pill (`LicensePill`, in ../status) and the page (`LicenseView`).
 import { Fragment, type ReactNode } from 'react';
 import type { LinkComponent } from '../header/index.js';
 
@@ -87,17 +87,6 @@ export function LicenseLink({ license = {}, Link = PlainLink }: { license?: Lice
   );
 }
 
-/** A small "MIT licensed" pill for a hero, linking to the license page. */
-export function LicenseBadge({ license = {}, Link = PlainLink }: { license?: License; Link?: LinkComponent }) {
-  return (
-    <Link className="ak-license-badge" href={license.href ?? LICENSE_HREF}>
-      <svg viewBox="0 0 16 16" width={14} height={14} aria-hidden="true">
-        <path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      <span><b>MIT</b> licensed</span>
-    </Link>
-  );
-}
 
 /** What MIT lets you do, in a line: `harar is MIT licensed: use it, change it, ship it, …`. */
 export const licenseSummary = (product: string) =>

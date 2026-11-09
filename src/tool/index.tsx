@@ -5,8 +5,8 @@
 import type { ReactNode } from 'react';
 import type { LinkComponent } from '../header/index.js';
 import { Footer } from '../footer/index.js';
-import { LicenseBadge, type License } from '../license/index.js';
-import { StatusPill, type Stage } from '../status/index.js';
+import type { License } from '../license/index.js';
+import { ProductPills, type Stage } from '../status/index.js';
 import { CopyButton } from './copy.js';
 import { MARKS } from './marks.js';
 import { TOOLS, toolInfo, toolName, type ToolId } from './tools.js';
@@ -85,19 +85,17 @@ export type Feature = { title: string; text: string; shot: Shot };
  * beside them: the reel for a tool you run in a terminal, or, for an app, a
  * screenshot of it, under the words and as wide as the page.
  */
-export function Hero({ headline, sub, status, statusNote, docs = '/docs/', github, license, installs, reel, shot, Link = PlainLink }: {
+export function Hero({ headline, sub, status, docs = '/docs/', github, license, installs, reel, shot, Link = PlainLink }: {
   headline: Headline;
   sub: string;
   /** Where the tool stands, so nobody takes it for a 1.0: a "Status: Alpha" pill above the buttons. */
   status?: Stage;
-  /** What a visitor should know at that stage, after the stage: "Status: Beta · not yet audited: …". */
-  statusNote?: string;
   docs?: string;
   /** The source, when it's public. */
   github?: string;
-  /** The tool's license: a "MIT licensed" badge beside the buttons, linking to the license page. */
+  /** The tool's license: a "License: MIT" pill beside the status pill, linking to the license page. */
   license?: License;
-  /** Empty until the tool can be installed; say why in `statusNote`. */
+  /** Empty until the tool can be installed; say why in `sub`. */
   installs: Install[];
   Link?: LinkComponent;
 } & ({ reel: ReelScene[]; shot?: never } | { shot: Shot; reel?: never })) {
@@ -106,12 +104,10 @@ export function Hero({ headline, sub, status, statusNote, docs = '/docs/', githu
       <div>
         <h1>{headline.before}<em>{headline.accent}</em>{headline.after}</h1>
         <p className="akt-sub">{sub}</p>
-        {status && <p className="akt-status"><StatusPill status={status} note={statusNote} /></p>}
+        <ProductPills status={status} license={license} Link={Link} />
         <div className="akt-btns">
           <Link className="akt-btn akt-main-btn" href={docs}>docs</Link>
-          {github && <a className="akt-btn" href={github}>GitHub</a>}
-          {license && <LicenseBadge license={license} Link={Link} />}
-        </div>
+          {github && <a className="akt-btn" href={github}>GitHub</a>}        </div>
         {installs.length > 0 && <div className="akt-installs">
           {installs.map((install) => (
             <div key={install.command}>

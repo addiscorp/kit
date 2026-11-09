@@ -1,34 +1,49 @@
-// Where a product stands, so nobody mistakes it for a 1.0: "Status: Alpha", or
-// "Status: Beta · not yet audited: keep only what you can rotate.". One pill,
-// the same on every site; `statusText` is its words, for tests and metadata.
+// Two pills, side by side, the same on every site: where a product stands, so
+// nobody mistakes it for a 1.0, and its license: ( Status: Beta ) ( License: MIT ).
+// They carry only that; anything longer belongs in the page's words.
+import type { LinkComponent } from '../header/index.js';
+import { LICENSE_HREF, type License } from '../license/index.js';
 
 /** How far along a product is. Nothing here is 1.0 yet. */
 export type Stage = 'alpha' | 'beta';
 
 const STAGE_NAMES: Record<Stage, string> = { alpha: 'Alpha', beta: 'Beta' };
 
-export type StatusProps = {
-  status: Stage;
-  /** What a visitor should know at this stage: `not yet audited: keep only what you can rotate.` */
-  note?: string;
-  /** Whose status, when the page is about something else: `p8` → "p8 status: Alpha". */
-  subject?: string;
-};
+/** The status pill's words: `Status: Beta`. */
+export const statusText = (status: Stage) => `Status: ${STAGE_NAMES[status]}`;
 
-/** The pill's words: `Status: Beta · <note>`, or `p8 status: Alpha`. */
-export function statusText({ status, note, subject }: StatusProps): string {
-  return `${statusLabel({ status, subject })}${note ? ` · ${note}` : ''}`;
+/** The license pill's words. */
+export const LICENSE_PILL_TEXT = 'License: MIT';
+
+const PlainLink: LinkComponent = (props) => <a {...props} />;
+
+/** The status pill. Beta has a filled dot, alpha a hollow one. */
+export function StatusPill({ status }: { status: Stage }) {
+  return (
+    <span className="ak-pill ak-status" data-status={status}>
+      <i aria-hidden="true" />
+      <span>Status: <b>{STAGE_NAMES[status]}</b></span>
+    </span>
+  );
 }
 
-const statusLabel = ({ status, subject }: Pick<StatusProps, 'status' | 'subject'>) =>
-  `${subject ? `${subject} status` : 'Status'}: ${STAGE_NAMES[status]}`;
-
-/** The pill: the stage in the ink colour, the note after it, quieter. */
-export function StatusPill({ status, note, subject }: StatusProps) {
+/** The license pill, linking to the license page. */
+export function LicensePill({ license = {}, Link = PlainLink }: { license?: License; Link?: LinkComponent }) {
   return (
-    <span className="ak-status" data-status={status}>
+    <Link className="ak-pill ak-license-pill" href={license.href ?? LICENSE_HREF}>
       <i aria-hidden="true" />
-      <span><b>{statusLabel({ status, subject })}</b>{note && ` · ${note}`}</span>
-    </span>
+      <span>License: <b>MIT</b></span>
+    </Link>
+  );
+}
+
+/** ( Status: Beta ) ( License: MIT ): the pair, side by side, either one alone when only it is given. */
+export function ProductPills({ status, license, Link }: { status?: Stage; license?: License; Link?: LinkComponent }) {
+  if (!status && !license) return null;
+  return (
+    <div className="ak-pills">
+      {status && <StatusPill status={status} />}
+      {license && <LicensePill license={license} Link={Link} />}
+    </div>
   );
 }
