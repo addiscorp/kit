@@ -99,3 +99,7 @@ npm install
 npm run typecheck
 npm test          # builds dist/, then drives the header and footer in a DOM (jsdom)
 ```
+
+## License
+
+[MIT](LICENSE)
