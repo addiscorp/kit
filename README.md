@@ -115,6 +115,7 @@ import { ToolSite, Hero, Why, DocsLayout, Code, Step, Callout } from '@addiscorp
 </DocsLayout>
 ```
 
+- **Status**: nothing is 1.0 yet, so every tool's hero says where it stands: `status="alpha"` or `"beta"`, with an optional `statusNote`, shows a pill above the buttons: "Status: Beta · not yet audited: keep only what you can rotate." `StatusPill` (with `subject: 'p8'` → "p8 status: Alpha") is the same pill for any other page; `statusText` is its words.
 - **The header** is the mark, the name and `docs`. A tool that has more to link adds it after docs with `links` (p8: `links={[{ label: 'test suite', href: 'https://p8-test-suite.addis.gg' }]}`).
 - **The reel** is CSS only: its scenes play in turn, 5 s each, and each scene's lines appear one after another. With reduced motion it shows the first scene, still.
 - **Colours**: `data-tool` picks the tool's palette (`src/tool/palettes.css`, generated from its colour layout): one pale ground in light mode, a ground tinted with the brand in dark. The kit's footer and theme switch take the same colours.
