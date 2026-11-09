@@ -34,7 +34,7 @@ test('a fork keeps its upstream notices above ours: p8’s LICENSE, byte for byt
 test('the footer line links to the license page; no repository without a source', () => {
   const doc = page(h(kit.Footer, { site: 'mirab.addis.gg', license: {} }));
   const links = [...doc.querySelectorAll('.ak-license a')];
-  assert.deepEqual(links.map((a) => [a.textContent, a.getAttribute('href')]), [['MIT License · © 2026 Sami Fouad', '/license/']]);
+  assert.deepEqual(links.map((a) => [a.textContent, a.getAttribute('href')]), [['MIT · © 2026 Sami Fouad', '/license/']]);
   assert.equal(doc.querySelector('a[href*="github.com"]'), null);
   assert.equal(page(h(kit.Footer, { site: 'mirab.addis.gg' })).querySelector('.ak-license'), null, 'nothing when the site passes no license');
 });
@@ -42,7 +42,7 @@ test('the footer line links to the license page; no repository without a source'
 test('a public source shows in the footer only when it’s passed', () => {
   const doc = page(h(kit.Footer, { site: 'harar.addis.gg', license: { source: 'https://github.com/addiscorp/harar' } }));
   assert.deepEqual([...doc.querySelectorAll('.ak-license a')].map((a) => [a.textContent, a.getAttribute('href')]),
-    [['MIT License · © 2026 Sami Fouad', '/license/'], ['source', 'https://github.com/addiscorp/harar']]);
+    [['MIT · © 2026 Sami Fouad', '/license/'], ['source', 'https://github.com/addiscorp/harar']]);
 });
 
 test('the badge says MIT licensed and links to the license page', () => {
@@ -81,7 +81,7 @@ test('a tool site carries the license into its footer and docs, and the hero sho
   assert.equal(site.querySelector('.akt-btns .ak-license-badge').getAttribute('href'), '/license/');
   assert.equal(site.querySelector('.ak-foot .ak-license a').getAttribute('href'), '/license/');
   const docs = page(h(kit.DocsLayout, { tool: 'harar', pages: [], pathname: '/docs/', title: 'Docs', license }, h('p', null, 'x')));
-  assert.equal(docs.querySelector('.ak-foot .ak-license a').textContent, 'MIT License · © 2026 Sami Fouad');
+  assert.equal(docs.querySelector('.ak-foot .ak-license a').textContent, 'MIT · © 2026 Sami Fouad');
   const bare = page(h(kit.Hero, { headline: { before: 'A ', accent: 'vault' }, sub: 's', installs: [], reel: [] }));
   assert.equal(bare.querySelector('.ak-license-badge'), null, 'no badge unless the site passes a license');
 });

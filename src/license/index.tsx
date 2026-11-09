@@ -69,10 +69,10 @@ export function mitLicense(license: License = {}): string {
 /** The default: `MIT License`, `Copyright (c) 2026 Sami Fouad`, the permission. */
 export const MIT_LICENSE = mitLicense();
 
-/** The short line a footer shows: `MIT License · © 2026 Sami Fouad`. */
+/** The short line a footer shows: `MIT · © 2026 Sami Fouad`. */
 export function licenseLine(license: License = {}): string {
   const { year, holder } = ours(license);
-  return `MIT License · © ${year} ${holder}`;
+  return `MIT · © ${year} ${holder}`;
 }
 
 const PlainLink: LinkComponent = (props) => <a {...props} />;

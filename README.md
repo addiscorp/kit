@@ -62,7 +62,7 @@ const p8: License = {                                                   // a for
   preface: 'p8 began as a fork of php-rs by Di Wu.',
 };
 
-<ToolSite tool="harar" license={harar}>…</ToolSite>       // footer: "MIT License · © 2026 Sami Fouad" → /license/, then "source"
+<ToolSite tool="harar" license={harar}>…</ToolSite>       // footer: "MIT · © 2026 Sami Fouad" → /license/, then "source"
 <Hero … license={harar} />                                // a small "MIT licensed" badge beside the buttons → /license/
 <DocsLayout … license={harar}>…</DocsLayout>              // the same footer line
 <Footer site="…" license={license} />                     // any site's footer

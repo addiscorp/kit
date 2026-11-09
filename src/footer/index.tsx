@@ -24,7 +24,7 @@ export type FooterProps = {
   children?: ReactNode;
   /** A small line under the footer row, e.g. trademark notices. */
   note?: ReactNode;
-  /** The product's license: `MIT License · © 2026 Sami Fouad`, linking to the license page. */
+  /** The product's license: `MIT · © 2026 Sami Fouad`, linking to the license page. */
   license?: License;
   Link?: LinkComponent;
 };

@@ -39,7 +39,7 @@ export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footno
   links?: HeaderLink[];
   /** A small line under the footer, e.g. trademark notices. */
   footnote?: ReactNode;
-  /** The tool's license, in the footer: `MIT License · © 2026 Sami Fouad`. */
+  /** The tool's license, in the footer: `MIT · © 2026 Sami Fouad`. */
   license?: License;
   Link?: LinkComponent;
   children: ReactNode;
