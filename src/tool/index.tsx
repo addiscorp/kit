@@ -5,6 +5,8 @@
 import type { ReactNode } from 'react';
 import type { LinkComponent } from '../header/index.js';
 import { Footer } from '../footer/index.js';
+import type { License } from '../license/index.js';
+import { ProductPills, type Stage } from '../status/index.js';
 import { CopyButton } from './copy.js';
 import { MARKS } from './marks.js';
 import { TOOLS, toolInfo, toolName, type ToolId } from './tools.js';
@@ -30,7 +32,7 @@ export function Mark({ tool, size = 26 }: { tool: ToolId; size?: number }) {
 export type HeaderLink = { label: string; href: string };
 
 /** Everything a tool site shows sits inside this: it sets the tool's colours, the header and the footer. */
-export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footnote, Link = PlainLink, children }: {
+export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footnote, license, Link = PlainLink, children }: {
   tool: ToolId;
   home?: string;
   docs?: string;
@@ -38,6 +40,8 @@ export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footno
   links?: HeaderLink[];
   /** A small line under the footer, e.g. trademark notices. */
   footnote?: ReactNode;
+  /** The tool's license, in the footer: `MIT · © 2026 Sami Fouad`. */
+  license?: License;
   Link?: LinkComponent;
   children: ReactNode;
 }) {
@@ -53,7 +57,7 @@ export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footno
         </header>
         {children}
       </main>
-      <Footer site={toolInfo(tool).domain} note={footnote} />
+      <Footer site={toolInfo(tool).domain} note={footnote} license={license} Link={Link} />
     </div>
   );
 }
@@ -81,15 +85,17 @@ export type Feature = { title: string; text: string; shot: Shot };
  * beside them: the reel for a tool you run in a terminal, or, for an app, a
  * screenshot of it, under the words and as wide as the page.
  */
-export function Hero({ headline, sub, status, docs = '/docs/', github, installs, reel, shot, Link = PlainLink }: {
+export function Hero({ headline, sub, status, docs = '/docs/', github, license, installs, reel, shot, Link = PlainLink }: {
   headline: Headline;
   sub: string;
-  /** Where the tool stands, when a visitor should know before installing: "Early: not yet audited." */
-  status?: string;
+  /** Where the tool stands, so nobody takes it for a 1.0: a "Status: Alpha" pill above the buttons. */
+  status?: Stage;
   docs?: string;
   /** The source, when it's public. */
   github?: string;
-  /** Empty until the tool can be installed; say why in `status`. */
+  /** The tool's license: a "License: MIT" pill beside the status pill, linking to the license page. */
+  license?: License;
+  /** Empty until the tool can be installed; say why in `sub`. */
   installs: Install[];
   Link?: LinkComponent;
 } & ({ reel: ReelScene[]; shot?: never } | { shot: Shot; reel?: never })) {
@@ -98,11 +104,10 @@ export function Hero({ headline, sub, status, docs = '/docs/', github, installs,
       <div>
         <h1>{headline.before}<em>{headline.accent}</em>{headline.after}</h1>
         <p className="akt-sub">{sub}</p>
-        {status && <p className="akt-status">{status}</p>}
+        <ProductPills status={status} license={license} Link={Link} />
         <div className="akt-btns">
           <Link className="akt-btn akt-main-btn" href={docs}>docs</Link>
-          {github && <a className="akt-btn" href={github}>GitHub</a>}
-        </div>
+          {github && <a className="akt-btn" href={github}>GitHub</a>}        </div>
         {installs.length > 0 && <div className="akt-installs">
           {installs.map((install) => (
             <div key={install.command}>
@@ -256,7 +261,7 @@ function Works({ works }: { works: WorksWith }) {
 export type DocsPage = { href: string; title: string };
 
 /** The docs, after rixse.dev: the pages down the side, the page on the right. */
-export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', title, lede, note, footnote, home = '/', Link = PlainLink, children }: {
+export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', title, lede, note, footnote, license, home = '/', Link = PlainLink, children }: {
   tool: ToolId;
   pages: DocsPage[];
   pathname: string;
@@ -267,6 +272,8 @@ export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', t
   note?: string;
   /** A small line under the footer, e.g. trademark notices. */
   footnote?: ReactNode;
+  /** The tool's license, in the footer. */
+  license?: License;
   home?: string;
   Link?: LinkComponent;
   children: ReactNode;
@@ -291,7 +298,7 @@ export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', t
           <div className="akt-prose">{children}</div>
         </article>
       </div>
-      <Footer site={toolInfo(tool).domain} note={footnote} />
+      <Footer site={toolInfo(tool).domain} note={footnote} license={license} Link={Link} />
     </div>
   );
 }
