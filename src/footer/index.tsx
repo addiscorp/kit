@@ -2,6 +2,8 @@
 // light/dark switch.
 import type { ReactNode } from 'react';
 import { ThemeToggle } from '../theme/index.js';
+import type { LinkComponent } from '../header/index.js';
+import { LicenseLink, type License } from '../license/index.js';
 
 export type Owner = { name: string; href: string; logo: ReactNode };
 
@@ -22,9 +24,12 @@ export type FooterProps = {
   children?: ReactNode;
   /** A small line under the footer row, e.g. trademark notices. */
   note?: ReactNode;
+  /** The product's license: `MIT License · © 2026 Sami Fouad`, linking to the license page. */
+  license?: License;
+  Link?: LinkComponent;
 };
 
-export function Footer({ site, owner = ADDIS, year = new Date().getFullYear(), children, note }: FooterProps) {
+export function Footer({ site, owner = ADDIS, year = new Date().getFullYear(), children, note, license, Link }: FooterProps) {
   return (
     <footer className="ak-foot">
       <a className="ak-credit" href={owner.href}>
@@ -32,6 +37,7 @@ export function Footer({ site, owner = ADDIS, year = new Date().getFullYear(), c
         © {year} {owner.name}
       </a>
       <span className="ak-foot-end">
+        {license && <LicenseLink license={license} Link={Link} />}
         {children}
         <span>{site}</span>
         <ThemeToggle />

@@ -42,8 +42,37 @@ import { Header, Footer, HeaderButton, PersonIcon, themeBoot } from '@addiscorp/
 - **The menu**: the brand button opens it; ⌘M / Ctrl+M opens and closes it; ⌘S, Ctrl+S or `/` opens it on search; typing anywhere searches; ↑ ↓ move, Enter opens, 1–9 open a numbered tile, Esc closes, `?` lists the shortcuts. A click outside or a navigation closes it.
 - **Groups** are tiles (numbered 1–9 in order across groups) or rows (`layout: 'list'`); a `searchOnly` group appears only as search matches. An item has a `href` or an `onSelect`, an optional `icon`, `detail` and `keywords`.
 - **`HeaderButton`**: a round button with a popover, one popover open at a time with the menu: account, notifications (`badge`), settings, or anything else.
-- **`Footer`**: who makes the site (Addis Corp by default; `owner` changes it), the site's name, the light/dark switch.
+- **`Footer`**: who makes the site (Addis Corp by default; `owner` changes it), the product's license when `license` is passed, the site's name, the light/dark switch.
 - **Theme**: `themeBoot` sets light or dark before paint (a `theme` cookie wins, else the system); `ThemeToggle` switches and remembers.
+
+## The license
+
+Addis products are MIT (APS 17). One `License` describes a product's license,
+and the same value drives everything a site shows about it, so the footer, the
+badge, the page and the LICENSE file can't disagree.
+
+```tsx
+import { LicenseView, MIT_LICENSE, mitLicense, type License } from '@addiscorp/kit';
+
+const license: License = {};                                            // MIT, Copyright (c) 2026 Sami Fouad
+const harar: License = { source: 'https://github.com/addiscorp/harar' }; // public: the source is linked
+const p8: License = {                                                   // a fork keeps its upstream notices, above ours
+  github: 'samifouad',
+  upstream: [{ year: 2025, holder: 'Di Wu', github: 'wudi' }],
+  preface: 'p8 began as a fork of php-rs by Di Wu.',
+};
+
+<ToolSite tool="harar" license={harar}>…</ToolSite>       // footer: "MIT License · © 2026 Sami Fouad" → /license/, then "source"
+<Hero … license={harar} />                                // a small "MIT licensed" badge beside the buttons → /license/
+<DocsLayout … license={harar}>…</DocsLayout>              // the same footer line
+<Footer site="…" license={license} />                     // any site's footer
+<LicenseView product="harar" license={harar} note={…} />  // the page: summary line, note, source, the full text
+```
+
+- **`mitLicense(license)`** is the LICENSE file's text, byte for byte (tested against harar's and p8's files); **`MIT_LICENSE`** is the default one.
+- **`source`** is only for a public repository. Without it nothing links to a repository and nothing says "open source".
+- **`note`** on the page is for what the product must add: a part that keeps an upstream license.
+- **`href`** moves the page from `/license/`.
 
 ## Make it yours
 
