@@ -1,6 +1,6 @@
 {
   "name": "@addiscorp/kit",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "The header, footer, theme and tool-site layout every Addis site shares, in each project's own brand colours.",
   "license": "MIT",
   "type": "module",

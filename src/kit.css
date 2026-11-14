@@ -51,6 +51,10 @@
 .ak-top-center { position: relative; }
 .ak-anchor { position: relative; }
 .ak-topbar :focus-visible, .ak-help :focus-visible { outline: 2px solid var(--ak-accent); outline-offset: 3px; }
+/* Text fields never draw a focus ring (Sami, 14 Nov): the caret shows where you are typing.
+   Zero specificity, so a site can still style its own fields on purpose. */
+:where(input, textarea, select):focus, :where(input, textarea, select):focus-visible,
+.ak-topbar :is(input, textarea, select):focus-visible, .ak-help :is(input, textarea, select):focus-visible { outline: none; box-shadow: none; }
 
 .ak-profile-btn, .ak-icon-btn, .ak-launcher { border: 0; color: var(--ak-ink); cursor: pointer; background: transparent; font: inherit; }
 .ak-profile-btn, .ak-icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; padding: 0; }
@@ -77,7 +81,7 @@
 .ak-popover.ak-end { left: auto; right: 0; }
 .ak-popover p { margin: 0; }
 
-.ak-search { display: flex; align-items: center; gap: 8px; border: 1px solid var(--ak-accent); border-radius: 10px; padding: 0 10px; background: var(--ak-ground); color: var(--ak-soft); }
+.ak-search { display: flex; align-items: center; gap: 8px; border: 1px solid var(--ak-edge); border-radius: 10px; padding: 0 10px; background: var(--ak-ground); color: var(--ak-soft); }
 .ak-search input { flex: 1; min-width: 0; height: 40px; border: 0; outline: none; background: transparent; color: var(--ak-ink); font: inherit; }
 .ak-search input::placeholder { color: var(--ak-soft); }
 .ak-group-label { margin: 14px 4px 8px; font-size: 11px; color: color-mix(in srgb, var(--ak-soft) 72%, var(--ak-ground)); }
