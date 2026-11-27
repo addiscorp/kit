@@ -122,11 +122,16 @@ test('? shows the shortcuts; renderItem draws items the app’s way', async () =
   act(() => root.unmount());
 });
 
-test('the footer names the site and, by default, Addis Corp', () => {
-  const html = renderToString(h(kit.Footer, { site: 'simien.dev', year: 2026 }));
-  assert.match(html, /simien\.dev/);
+test('the footer: Addis Corp once on the left; terms · privacy · theme switch on the right (Sami, 27 Nov)', () => {
+  const html = renderToString(h(kit.Footer, { year: 2026 }));
   assert.match(html, /© <!-- -->2026<!-- --> <!-- -->Addis Corp/);
   assert.match(html, /href="https:\/\/addis\.gg"/);
+  assert.equal(html.match(/©/g).length, 1, 'one copyright line');
+  const end = html.slice(html.indexOf('class="ak-foot-end"'));
+  const links = [...end.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => [m[2], m[1]]);
+  assert.deepEqual(links, [['terms', 'https://addis.gg/terms/'], ['privacy', 'https://addis.gg/privacy/']]);
+  assert.ok(end.indexOf('privacy') < end.indexOf('ak-theme'), 'the theme switch comes last');
+  assert.deepEqual([kit.TERMS_HREF, kit.PRIVACY_HREF], ['https://addis.gg/terms/', 'https://addis.gg/privacy/']);
 });
 
 test('typing with the menu open, outside the search box, starts a search on the first match', async () => {

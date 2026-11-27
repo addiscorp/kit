@@ -32,7 +32,7 @@ export function Mark({ tool, size = 26 }: { tool: ToolId; size?: number }) {
 export type HeaderLink = { label: string; href: string };
 
 /** Everything a tool site shows sits inside this: it sets the tool's colours, the header and the footer. */
-export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footnote, license, Link = PlainLink, children }: {
+export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footnote, Link = PlainLink, children }: {
   tool: ToolId;
   home?: string;
   docs?: string;
@@ -40,8 +40,6 @@ export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footno
   links?: HeaderLink[];
   /** A small line under the footer, e.g. trademark notices. */
   footnote?: ReactNode;
-  /** The tool's license, in the footer: `MIT · © 2026 Sami Fouad`. */
-  license?: License;
   Link?: LinkComponent;
   children: ReactNode;
 }) {
@@ -57,7 +55,7 @@ export function ToolSite({ tool, home = '/', docs = '/docs/', links = [], footno
         </header>
         {children}
       </main>
-      <Footer site={toolInfo(tool).domain} note={footnote} license={license} Link={Link} />
+      <Footer note={footnote} />
     </div>
   );
 }
@@ -261,7 +259,7 @@ function Works({ works }: { works: WorksWith }) {
 export type DocsPage = { href: string; title: string };
 
 /** The docs, after rixse.dev: the pages down the side, the page on the right. */
-export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', title, lede, note, footnote, license, home = '/', Link = PlainLink, children }: {
+export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', title, lede, note, footnote, home = '/', Link = PlainLink, children }: {
   tool: ToolId;
   pages: DocsPage[];
   pathname: string;
@@ -272,8 +270,6 @@ export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', t
   note?: string;
   /** A small line under the footer, e.g. trademark notices. */
   footnote?: ReactNode;
-  /** The tool's license, in the footer. */
-  license?: License;
   home?: string;
   Link?: LinkComponent;
   children: ReactNode;
@@ -298,7 +294,7 @@ export function DocsLayout({ tool, pages, pathname, eyebrow = 'Documentation', t
           <div className="akt-prose">{children}</div>
         </article>
       </div>
-      <Footer site={toolInfo(tool).domain} note={footnote} license={license} Link={Link} />
+      <Footer note={footnote} />
     </div>
   );
 }
