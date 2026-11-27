@@ -183,3 +183,31 @@ test('the tour shows each screen with what it’s for, loaded as the visitor scr
   assert.deepEqual(rows.map((r) => r.querySelectorAll('img').length), [2, 1]);
   assert.ok([...doc.querySelectorAll('img')].every((i) => i.getAttribute('loading') === 'lazy'));
 });
+
+// The theme hides one of a mark's two <svg>s with display:none, and a gradient or path defined in a
+// hidden <svg> paints nothing where it is referenced. So each variant may only point at ids it defines,
+// and no id may be defined by both (the first definition in the page would win).
+test('every mark only refers to ids it defines itself, and its two variants share no id', () => {
+  for (const tool of kit.TOOLS) {
+    const ids = {};
+    for (const v of ['light', 'dark']) {
+      const svg = kit.MARKS[tool.id][v];
+      ids[v] = new Set([...svg.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]));
+      for (const [, ref] of svg.matchAll(/(?:url\(#|href="#)([^)"]+)/g)) assert.ok(ids[v].has(ref), `${tool.id} ${v} refers to #${ref}, which it doesn't define`);
+    }
+    for (const id of ids.light) assert.ok(!ids.dark.has(id), `${tool.id}: both variants define #${id}`);
+  }
+});
+
+test('gild’s mark is the gilded g: ivory tile in light, gold tile in dark (Sami, 27 Nov)', () => {
+  const { light, dark } = kit.MARKS.gild;
+  assert.match(light, /stop-color="#FBF4E2"/);
+  assert.match(dark, /stop-color="#EDC65E"/);
+  for (const svg of [light, dark]) {
+    assert.doesNotMatch(svg, /#F38020/i, 'the orange robot is gone');
+    assert.equal((svg.match(/<use /g) ?? []).length, 8, 'six echoes, the halo and the g');
+  }
+  const doc = page(h(kit.ToolSite, { tool: 'gild' }, h('p', null, 'x')));
+  const mark = doc.querySelector('.akt-brand .akt-mark');
+  assert.ok(mark.querySelector('svg.akt-light #akt-gild-l-g') && mark.querySelector('svg.akt-dark #akt-gild-d-g'));
+});
