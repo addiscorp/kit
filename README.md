@@ -34,7 +34,7 @@ import { Header, Footer, HeaderButton, PersonIcon, themeBoot } from '@addiscorp/
   placeholder="Search the docs"
 />
 
-<Footer site="simien.dev" />
+<Footer />
 ```
 
 ## What the kit does, so no app has to
@@ -42,7 +42,7 @@ import { Header, Footer, HeaderButton, PersonIcon, themeBoot } from '@addiscorp/
 - **The menu**: the brand button opens it; ⌘M / Ctrl+M opens and closes it; ⌘S, Ctrl+S or `/` opens it on search; typing anywhere searches; ↑ ↓ move, Enter opens, 1–9 open a numbered tile, Esc closes, `?` lists the shortcuts. A click outside or a navigation closes it.
 - **Groups** are tiles (numbered 1–9 in order across groups) or rows (`layout: 'list'`); a `searchOnly` group appears only as search matches. An item has a `href` or an `onSelect`, an optional `icon`, `detail` and `keywords`.
 - **`HeaderButton`**: a round button with a popover, one popover open at a time with the menu: account, notifications (`badge`), settings, or anything else.
-- **`Footer`**: who makes the site (Addis Corp by default; `owner` changes it), the product's license when `license` is passed, the site's name, the light/dark switch.
+- **`Footer`**: who makes the site, the one copyright line (Addis Corp by default; `owner` changes it); the product's license (`MIT license`, to `/license/`) when `license` is passed; Terms and Privacy, which every Addis site links to the same pages on addis.gg (`TERMS_HREF`, `PRIVACY_HREF`); the light/dark switch.
 - **Theme**: `themeBoot` sets light or dark before paint (a `theme` cookie wins, else the system); `ThemeToggle` switches and remembers.
 
 ## The license
@@ -62,11 +62,11 @@ const p8: License = {                                                   // a for
   preface: 'p8 began as a fork of php-rs by Di Wu.',
 };
 
-<ToolSite tool="harar" license={harar}>…</ToolSite>       // footer: "MIT · © 2026 Sami Fouad" → /license/, then "source"
+<ToolSite tool="harar" license={harar}>…</ToolSite>       // footer: "MIT license" → /license/, then "source"
 <Hero … status="alpha" license={harar} />                 // ( Status: Alpha ) ( License: MIT ) above the buttons; License → /license/
 <ProductPills status="beta" license={license} />          // the same pair on any other page
 <DocsLayout … license={harar}>…</DocsLayout>              // the same footer line
-<Footer site="…" license={license} />                     // any site's footer
+<Footer license={license} />                               // any site's footer
 <LicenseView product="harar" license={harar} note={…} />  // the page: summary line, note, source, the full text
 ```
 

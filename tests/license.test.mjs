@@ -31,18 +31,13 @@ test('a fork keeps its upstream notices above ours: p8’s LICENSE, byte for byt
   assert.equal(kit.mitLicense(P8), fixture('p8-runtime-LICENSE'));
 });
 
-test('the footer line links to the license page; no repository without a source', () => {
-  const doc = page(h(kit.Footer, { site: 'mirab.addis.gg', license: {} }));
-  const links = [...doc.querySelectorAll('.ak-license a')];
-  assert.deepEqual(links.map((a) => [a.textContent, a.getAttribute('href')]), [['MIT · © 2026 Sami Fouad', '/license/']]);
-  assert.equal(doc.querySelector('a[href*="github.com"]'), null);
-  assert.equal(page(h(kit.Footer, { site: 'mirab.addis.gg' })).querySelector('.ak-license'), null, 'nothing when the site passes no license');
-});
-
-test('a public source shows in the footer only when it’s passed', () => {
-  const doc = page(h(kit.Footer, { site: 'harar.addis.gg', license: { source: 'https://github.com/addiscorp/harar' } }));
-  assert.deepEqual([...doc.querySelectorAll('.ak-license a')].map((a) => [a.textContent, a.getAttribute('href')]),
-    [['MIT · © 2026 Sami Fouad', '/license/'], ['source', 'https://github.com/addiscorp/harar']]);
+test('the footer never shows the license or a second copyright; the tool site keeps it in the hero pill', () => {
+  for (const doc of [page(h(kit.Footer, {})), page(h(kit.ToolSite, { tool: 'harar' }, h('p', null, 'x')))]) {
+    const foot = doc.querySelector('.ak-foot');
+    assert.equal(foot.querySelector('.ak-license'), null);
+    assert.doesNotMatch(foot.textContent, /MIT|Sami Fouad|addis\.gg$/);
+    assert.equal((foot.textContent.match(/©/g) ?? []).length, 1);
+  }
 });
 
 test('the page: what MIT lets you do, the note, and the full text', () => {
@@ -65,15 +60,16 @@ test('the page shows every notice of a fork, and the source only when it’s pub
   assert.equal(pub.querySelector('.ak-license-source a').textContent, 'github.com/addiscorp/harar');
 });
 
-test('a tool site carries the license into its footer and docs, and the hero shows the License pill', () => {
+test('the hero shows the License pill; the tool site\'s footer and docs footer leave the license out', () => {
   const license = { source: 'https://github.com/addiscorp/harar' };
-  const site = page(h(kit.ToolSite, { tool: 'harar', license }, h(kit.Hero, {
+  const site = page(h(kit.ToolSite, { tool: 'harar' }, h(kit.Hero, {
     headline: { before: 'A ', accent: 'vault' }, sub: 's', installs: [], reel: [], license,
   })));
   assert.equal(site.querySelector('.akt-hero .ak-pills a.ak-license-pill').getAttribute('href'), '/license/');
-  assert.equal(site.querySelector('.ak-foot .ak-license a').getAttribute('href'), '/license/');
-  const docs = page(h(kit.DocsLayout, { tool: 'harar', pages: [], pathname: '/docs/', title: 'Docs', license }, h('p', null, 'x')));
-  assert.equal(docs.querySelector('.ak-foot .ak-license a').textContent, 'MIT · © 2026 Sami Fouad');
+  assert.equal(site.querySelector('.ak-foot .ak-license'), null);
+  const docs = page(h(kit.DocsLayout, { tool: 'harar', pages: [], pathname: '/docs/', title: 'Docs' }, h('p', null, 'x')));
+  assert.equal(docs.querySelector('.ak-foot .ak-license'), null);
+  assert.deepEqual([...docs.querySelectorAll('.ak-foot-end a')].map((a) => a.textContent), ['terms', 'privacy']);
   const bare = page(h(kit.Hero, { headline: { before: 'A ', accent: 'vault' }, sub: 's', installs: [], reel: [] }));
   assert.equal(bare.querySelector('.ak-license-pill'), null, 'no License pill unless the site passes a license');
 });

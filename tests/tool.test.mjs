@@ -34,7 +34,7 @@ test('the site wraps the page in the tool’s colours, with only docs in the hea
   assert.ok(doc.querySelector('.akt-brand .akt-mark .akt-light'), 'light mark');
   assert.ok(doc.querySelector('.akt-brand .akt-mark .akt-dark'), 'dark mark');
   assert.ok(doc.getElementById('body'));
-  assert.match(doc.querySelector('.ak-foot').textContent, /harar\.addis\.gg/);
+  assert.doesNotMatch(doc.querySelector('.ak-foot').textContent, /harar\.addis\.gg/, 'the footer leaves out the site\'s own address (Sami, 27 Nov)');
 });
 
 test('a site can add its own header links, after docs', () => {
@@ -108,7 +108,6 @@ test('a tool with a display name shows it everywhere it is named; the others sho
   const site = page(h(kit.ToolSite, { tool: 'securecore' }, h(kit.Why, { tool: 'securecore', benefits })));
   assert.equal(site.querySelector('.akt-header .akt-brand').textContent, 'SecureCore');
   assert.equal(site.querySelector('.akt-why h2').textContent, 'Why SecureCorethe short version');
-  assert.match(site.querySelector('.ak-foot').textContent, /securecore\.addis\.gg/, 'the domain stays lowercase');
   const docs = page(h(kit.DocsLayout, { tool: 'securecore', pages: [{ href: '/docs/', title: 'Overview' }], pathname: '/docs/', title: 'Overview' }, h('p', null, 'x')));
   assert.equal(docs.querySelector('.akt-side .akt-brand').textContent, 'SecureCoredocs');
   // In another tool's family list: the display name for securecore, the id for every other tool.

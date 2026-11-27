@@ -1,9 +1,10 @@
-// The footer every Addis site shares: who makes it, the site's name, and the
-// light/dark switch.
+// The footer every Addis site shares (Sami, 27 Nov): on the left who makes the
+// site, the one copyright line; on the right terms · privacy · the light/dark
+// switch. Terms and privacy are the same two pages on addis.gg for the whole
+// family of sites. The site's own name and its license stay out of the footer:
+// the license is the hero's "License: MIT" pill and the /license/ page.
 import type { ReactNode } from 'react';
 import { ThemeToggle } from '../theme/index.js';
-import type { LinkComponent } from '../header/index.js';
-import { LicenseLink, type License } from '../license/index.js';
 
 export type Owner = { name: string; href: string; logo: ReactNode };
 
@@ -14,34 +15,30 @@ export const ADDIS: Owner = {
   logo: <AddisMark />,
 };
 
+/** The terms and privacy pages: one place on addis.gg for every Addis site. */
+export const TERMS_HREF = 'https://addis.gg/terms/';
+export const PRIVACY_HREF = 'https://addis.gg/privacy/';
+
 export type FooterProps = {
-  /** The site's name, shown at the end: `simien.dev`. */
-  site: string;
   owner?: Owner;
   /** The year in the copyright line; this year by default. */
   year?: number;
-  /** Anything else for the end of the footer, before the theme switch. */
-  children?: ReactNode;
   /** A small line under the footer row, e.g. trademark notices. */
   note?: ReactNode;
-  /** The product's license: `MIT · © 2026 Sami Fouad`, linking to the license page. */
-  license?: License;
-  Link?: LinkComponent;
 };
 
-export function Footer({ site, owner = ADDIS, year = new Date().getFullYear(), children, note, license, Link }: FooterProps) {
+export function Footer({ owner = ADDIS, year = new Date().getFullYear(), note }: FooterProps) {
   return (
     <footer className="ak-foot">
       <a className="ak-credit" href={owner.href}>
         {owner.logo}
         © {year} {owner.name}
       </a>
-      <span className="ak-foot-end">
-        {license && <LicenseLink license={license} Link={Link} />}
-        {children}
-        <span>{site}</span>
+      <nav className="ak-foot-end" aria-label="Legal">
+        <a href={TERMS_HREF}>terms</a>
+        <a href={PRIVACY_HREF}>privacy</a>
         <ThemeToggle />
-      </span>
+      </nav>
       {note && <p className="ak-foot-note">{note}</p>}
     </footer>
   );

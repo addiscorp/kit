@@ -1,7 +1,8 @@
 // The license, once (APS 17: Addis products are MIT, `Copyright (c) <year> Sami Fouad`).
-// One description of a product's license drives all four places a site shows
-// it, so they can't disagree: the text (`mitLicense`), the footer line
-// (`LicenseLink`), the hero pill (`LicensePill`, in ../status) and the page (`LicenseView`).
+// One description of a product's license drives the three places a site shows
+// it, so they can't disagree: the text (`mitLicense`), the hero pill
+// (`LicensePill`, in ../status) and the page (`LicenseView`). The footer doesn't
+// show it (Sami, 27 Nov): its one copyright line is the owner's.
 import { Fragment, type ReactNode } from 'react';
 import type { LinkComponent } from '../header/index.js';
 
@@ -68,25 +69,6 @@ export function mitLicense(license: License = {}): string {
 
 /** The default: `MIT License`, `Copyright (c) 2026 Sami Fouad`, the permission. */
 export const MIT_LICENSE = mitLicense();
-
-/** The short line a footer shows: `MIT · © 2026 Sami Fouad`. */
-export function licenseLine(license: License = {}): string {
-  const { year, holder } = ours(license);
-  return `MIT · © ${year} ${holder}`;
-}
-
-const PlainLink: LinkComponent = (props) => <a {...props} />;
-
-/** For the footer: the line, linking to the license page, and the source when it's public. */
-export function LicenseLink({ license = {}, Link = PlainLink }: { license?: License; Link?: LinkComponent }) {
-  return (
-    <span className="ak-license">
-      <Link href={license.href ?? LICENSE_HREF}>{licenseLine(license)}</Link>
-      {license.source && <> · <a href={license.source}>source</a></>}
-    </span>
-  );
-}
-
 
 /** What MIT lets you do, in a line: `harar is MIT licensed: use it, change it, ship it, …`. */
 export const licenseSummary = (product: string) =>
