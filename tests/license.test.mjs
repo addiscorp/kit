@@ -69,7 +69,7 @@ test('the hero shows the License pill; the tool site\'s footer and docs footer l
   assert.equal(site.querySelector('.ak-foot .ak-license'), null);
   const docs = page(h(kit.DocsLayout, { tool: 'harar', pages: [], pathname: '/docs/', title: 'Docs' }, h('p', null, 'x')));
   assert.equal(docs.querySelector('.ak-foot .ak-license'), null);
-  assert.deepEqual([...docs.querySelectorAll('.ak-foot-end a')].map((a) => a.textContent), ['terms', 'privacy']);
+  assert.deepEqual([...docs.querySelectorAll('.ak-foot-end a')].map((a) => a.textContent), ['terms', 'privacy', 'legal']);
   const bare = page(h(kit.Hero, { headline: { before: 'A ', accent: 'vault' }, sub: 's', installs: [], reel: [] }));
   assert.equal(bare.querySelector('.ak-license-pill'), null, 'no License pill unless the site passes a license');
 });

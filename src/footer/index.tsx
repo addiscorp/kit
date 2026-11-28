@@ -3,6 +3,9 @@
 // switch. Terms and privacy are the same two pages on addis.gg for the whole
 // family of sites. The site's own name and its license stay out of the footer:
 // the license is the hero's "License: MIT" pill and the /license/ page.
+// On a phone, terms and privacy fold into one "legal" link, addis.gg/legal/,
+// a page that links to both (Sami, 28 Nov). `extra`: a site's own switch
+// beside the theme switch (heyava.ca's tail switch, on phones).
 import type { ReactNode } from 'react';
 import { ThemeToggle } from '../theme/index.js';
 
@@ -18,6 +21,8 @@ export const ADDIS: Owner = {
 /** The terms and privacy pages: one place on addis.gg for every Addis site. */
 export const TERMS_HREF = 'https://addis.gg/terms/';
 export const PRIVACY_HREF = 'https://addis.gg/privacy/';
+/** One link to both, on a phone: addis.gg/legal/ links to terms and privacy. */
+export const LEGAL_HREF = 'https://addis.gg/legal/';
 
 export type FooterProps = {
   owner?: Owner;
@@ -25,9 +30,11 @@ export type FooterProps = {
   year?: number;
   /** A small line under the footer row, e.g. trademark notices. */
   note?: ReactNode;
+  /** A site's own control, just before the theme switch (a button the size of it, `ak-theme-toggle`). */
+  extra?: ReactNode;
 };
 
-export function Footer({ owner = ADDIS, year = new Date().getFullYear(), note }: FooterProps) {
+export function Footer({ owner = ADDIS, year = new Date().getFullYear(), note, extra }: FooterProps) {
   return (
     <footer className="ak-foot">
       <a className="ak-credit" href={owner.href}>
@@ -35,8 +42,10 @@ export function Footer({ owner = ADDIS, year = new Date().getFullYear(), note }:
         © {year} {owner.name}
       </a>
       <nav className="ak-foot-end" aria-label="Legal">
-        <a href={TERMS_HREF}>terms</a>
-        <a href={PRIVACY_HREF}>privacy</a>
+        <a className="ak-foot-wide" href={TERMS_HREF}>terms</a>
+        <a className="ak-foot-wide" href={PRIVACY_HREF}>privacy</a>
+        <a className="ak-foot-narrow" href={LEGAL_HREF}>legal</a>
+        {extra}
         <ThemeToggle />
       </nav>
       {note && <p className="ak-foot-note">{note}</p>}
