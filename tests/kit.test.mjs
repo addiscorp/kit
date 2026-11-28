@@ -1,4 +1,5 @@
 // The kit as a user meets it: a real React tree in a DOM, driven by keys and clicks.
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
@@ -128,10 +129,20 @@ test('the footer: Addis Corp once on the left; terms · privacy · theme switch 
   assert.match(html, /href="https:\/\/addis\.gg"/);
   assert.equal(html.match(/©/g).length, 1, 'one copyright line');
   const end = html.slice(html.indexOf('class="ak-foot-end"'));
-  const links = [...end.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => [m[2], m[1]]);
-  assert.deepEqual(links, [['terms', 'https://addis.gg/terms/'], ['privacy', 'https://addis.gg/privacy/']]);
-  assert.ok(end.indexOf('privacy') < end.indexOf('ak-theme'), 'the theme switch comes last');
-  assert.deepEqual([kit.TERMS_HREF, kit.PRIVACY_HREF], ['https://addis.gg/terms/', 'https://addis.gg/privacy/']);
+  const links = [...end.matchAll(/<a class="([^"]+)" href="([^"]+)">([^<]+)<\/a>/g)].map((m) => [m[3], m[2], m[1]]);
+  assert.deepEqual(links, [['terms', 'https://addis.gg/terms/', 'ak-foot-wide'], ['privacy', 'https://addis.gg/privacy/', 'ak-foot-wide'], ['legal', 'https://addis.gg/legal/', 'ak-foot-narrow']]);
+  assert.ok(end.indexOf('legal') < end.indexOf('ak-theme'), 'the theme switch comes last');
+  assert.deepEqual([kit.TERMS_HREF, kit.PRIVACY_HREF, kit.LEGAL_HREF], ['https://addis.gg/terms/', 'https://addis.gg/privacy/', 'https://addis.gg/legal/']);
+});
+
+test('the footer on a phone: terms and privacy fold into one "legal" link (Sami, 28 Nov); a site\'s own switch sits just before the theme switch', () => {
+  const css = readFileSync(new URL('../dist/kit.css', import.meta.url), 'utf8');
+  assert.match(css, /\.ak-foot-end \.ak-foot-narrow \{ display: none; \}/, 'legal hidden on a wide screen');
+  const phone = css.slice(css.indexOf('.ak-foot-end .ak-foot-narrow { display: none; }'));
+  assert.match(phone, /^[^]*?@media \(max-width: 600px\) \{\s*\.ak-foot-end \.ak-foot-wide \{ display: none; \}\s*\.ak-foot-end \.ak-foot-narrow \{ display: inline; \}/, 'on a phone: legal shown, terms and privacy hidden');
+  const html = renderToString(h(kit.Footer, { year: 2026, extra: h('button', { className: 'ak-theme-toggle mine' }, 'x') }));
+  const end = html.slice(html.indexOf('class="ak-foot-end"'));
+  assert.ok(end.indexOf('legal') < end.indexOf('mine') && end.indexOf('mine') < end.indexOf('aria-label="Switch'), 'legal, the site\'s switch, then the theme switch');
 });
 
 test('typing with the menu open, outside the search box, starts a search on the first match', async () => {
